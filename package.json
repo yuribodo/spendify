@@ -1,0 +1,39 @@
+{
+  "name": "spendify",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start:dev": "tsx watch src/server.ts",
+    "start": "node build/server.js",
+    "build": "tsup src --out-dir build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuribodo/spendify.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yuribodo/spendify/issues"
+  },
+  "homepage": "https://github.com/yuribodo/spendify#readme",
+  "description": "",
+  "dependencies": {
+    "fastify": "5.2.1",
+    "tsup": "2.0.3",
+    "zod": "3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "22.13.5",
+    "ts-node": "10.9.2",
+    "tsx": "4.19.3",
+    "typescript": "4.9.5",
+    "vitest": "3.0.7"
+  }
+}
