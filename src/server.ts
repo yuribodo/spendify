@@ -1,18 +1,11 @@
-import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
-const fastify = Fastify({
-  logger: true
-});
+import { app } from "./app";
+import { env } from "./env";
 
-fastify.get('/', async function handler(
-  request: FastifyRequest,
-  reply: FastifyReply
-) {
-  return { hello: 'world' };
-});
-
-try {
-  await fastify.listen({ port: 3000 });
-} catch (err) {
-  fastify.log.error(err);
-  process.exit(1);
-}
+app
+  .listen({
+    host: '0.0.0.0',
+    port: env.PORT,
+  })
+  .then(() => {
+    console.log(`HTTP Server running on port ${env.PORT} 🚀`)
+  })
