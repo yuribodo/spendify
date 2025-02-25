@@ -26,6 +26,7 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "6.4.1",
+    "dotenv": "16.4.7",
     "fastify": "5.2.1",
     "tsup": "2.0.3",
     "zod": "3.24.2"
