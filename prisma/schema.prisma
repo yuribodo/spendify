@@ -23,6 +23,8 @@ model User {
   expenses Expense[]
 
   created_at DateTime @default(now())
+
+  @@map("users")
 }
 
 model Revenue {
@@ -37,6 +39,8 @@ model Revenue {
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
+
+  @@map("revenues")
 }
 
 model Expense {
@@ -51,6 +55,8 @@ model Expense {
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
+
+  @@map("expenses")
 }
 
 model Category {
@@ -59,4 +65,6 @@ model Category {
 
   revenues Revenue[]
   expenses Expense[]
+
+  @@map("categories")
 }
