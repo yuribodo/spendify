@@ -1,7 +1,7 @@
+import { beforeEach, describe, expect, it } from 'vitest';
 import { InMemoryUsersRepository } from "../repositories/in-memory/in-memory-users-repository";
-import { compare } from "bcryptjs";
-import {describe, it, expect, beforeEach} from 'vitest'
 import { RegisterUseCase } from "./register";
+import { compare } from 'bcryptjs';
 
 let usersRepository: InMemoryUsersRepository
 let sut: RegisterUseCase
@@ -14,7 +14,7 @@ describe('Register user Use case', () => {
     })
 
     it('should be able to register', async () => {
-        const {user} = await sut.execute({
+        const { user } = await sut.execute({
             username: 'John Doe',
             email: 'john@doe.com',
             password: '123456',
@@ -23,5 +23,15 @@ describe('Register user Use case', () => {
         expect(user.id).toEqual(expect.any(String))
     })
 
+    it('should hash user password', async () => {
+        const { user } = await sut.execute({
+            username: 'John Doe',
+            email: 'john@doe.com',
+            password: '123456',
+        })
 
+        const isPasswordHashed = await compare('123456', user.password_hash)
+
+        expect(isPasswordHashed).toBe(true)
+    })
 })
