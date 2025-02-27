@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { InMemoryUsersRepository } from "../repositories/in-memory/in-memory-users-repository";
 import { RegisterUseCase } from "./register";
 import { compare } from 'bcryptjs';
+import { UserAlreadyExistsError } from './errors/user-already-exists-error';
 
 let usersRepository: InMemoryUsersRepository
 let sut: RegisterUseCase
@@ -33,5 +34,23 @@ describe('Register user Use case', () => {
         const isPasswordHashed = await compare('123456', user.password_hash)
 
         expect(isPasswordHashed).toBe(true)
+    })
+
+    it('should not be able to register with the same email twice', async () => {
+        const email = 'john@doe.com'
+        
+        await sut.execute({
+            username: 'John Doe',
+            email,
+            password: '123456',
+        })
+
+        await expect(() => 
+            sut.execute({
+                username: 'John Doe',
+                email,
+                password: '123456',
+            }),
+        ).rejects.toBeInstanceOf(UserAlreadyExistsError)
     })
 })
