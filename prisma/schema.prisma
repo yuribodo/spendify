@@ -19,6 +19,9 @@ model User {
   email         String @unique
   password_hash String
 
+  password_reset_token   String?
+  password_reset_expires DateTime?
+
   revenues Revenue[]
   expenses Expense[]
 
