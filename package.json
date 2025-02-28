@@ -28,6 +28,7 @@
     "@fastify/jwt": "9.0.4",
     "@prisma/client": "6.4.1",
     "bcryptjs": "3.0.2",
+    "date-fns": "4.1.0",
     "dotenv": "16.4.7",
     "fastify": "5.2.1",
     "tsup": "2.0.3",
