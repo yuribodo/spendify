@@ -11,6 +11,8 @@ export class InMemoryUsersRepository implements UsersRepository {
             username: data.username,
             email: data.email,
             password_hash: data.password_hash,
+            password_reset_token: data.password_reset_token ?? null,
+            password_reset_expires: data.password_reset_expires ? new Date(data.password_reset_expires as any) : null,
             created_at: new Date()
         }
 
