@@ -1,4 +1,4 @@
-import fastify from "fastify";
+import fastify, { FastifyReply, FastifyRequest } from "fastify";
 import { ZodError } from "zod";
 import { appRoutes } from "./http/routes";
 import { env } from "./env/index";
@@ -9,6 +9,14 @@ export const app = fastify()
 app.register(fastifyJwt, {
     secret: process.env.JWT_SECRET || 'secret'
 })
+
+app.decorate("authenticate", async (request: FastifyRequest, reply: FastifyReply) => {
+    try {
+        await request.jwtVerify();
+    } catch (err) {
+        reply.status(401).send({ message: "Token not found or Invalid" });
+    }
+});
 
 app.register(appRoutes)
 
