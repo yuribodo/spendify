@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { InMemoryUsersRepository } from '../repositories/in-memory/in-memory-users-repository'
-import { AuthenticateUseCase } from './authenticate'
-import { InvalidCredentialsError } from './errors/invalid-credentials-error'
+import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
+import { AuthenticateUseCase } from '@/use-cases/authenticate'
+import { InvalidCredentialsError } from '@/use-cases/errors/invalid-credentials-error'
 
 
 const mockCompare = vi.fn()
