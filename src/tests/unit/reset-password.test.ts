@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { InMemoryUsersRepository } from '../repositories/in-memory/in-memory-users-repository'
-import { ResetPasswordUseCase } from './reset-password'
+import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
+import { ResetPasswordUseCase } from '@/use-cases/reset-password'
 import { hash } from 'bcryptjs'
-import { InvalidResetTokenError } from './errors/invalid-reset-token-error'
-import { ExpiredResetTokenError } from './errors/expired-reset-token-error'
+import { InvalidResetTokenError } from '@/use-cases/errors/invalid-reset-token-error'
+import { ExpiredResetTokenError } from '@/use-cases/errors/expired-reset-token-error'
 
 vi.mock('bcryptjs', async () => {
   const actual = await import('bcryptjs')
