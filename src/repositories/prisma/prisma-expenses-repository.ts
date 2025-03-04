@@ -1,4 +1,4 @@
-import { ExpensesRepository, CreateExpenseDTO, FindManyExpensesParams, FindManyExpensesResponse } from "../expenses-repository";
+import { ExpensesRepository, CreateExpenseDTO, FindManyExpensesParams, FindManyExpensesResponse, FindFilteredExpensesParams } from "../expenses-repository";
 import { Expense } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
@@ -45,5 +45,63 @@ export class PrismaExpensesRepository implements ExpensesRepository {
       expenses,
       totalCount,
     };
+  }
+
+  async findFiltered({
+    page,
+    perPage,
+    userId,
+    startDate,
+    endDate,
+    category,
+    payment_method,
+    minAmount,
+    maxAmount,
+  }: FindFilteredExpensesParams): Promise<FindManyExpensesResponse> {
+    const skip = (page - 1) * perPage;
+    const whereClause: any = { userId };
+  
+    if (startDate || endDate) {
+      whereClause.date = {};
+      if (startDate) {
+        whereClause.date.gte = new Date(startDate);
+      }
+      if (endDate) {
+        whereClause.date.lte = new Date(endDate);
+      }
+    }
+  
+    if (category) {
+      whereClause.categoryId = category;
+    }
+  
+    if (payment_method) {
+      whereClause.payment_method = payment_method;
+    }
+  
+    if (minAmount || maxAmount) {
+      whereClause.value = {};
+      if (minAmount) {
+        whereClause.value.gte = minAmount;
+      }
+      if (maxAmount) {
+        whereClause.value.lte = maxAmount;
+      }
+    }
+  
+    const [expenses, totalCount] = await Promise.all([
+      prisma.expense.findMany({
+        where: whereClause,
+        include: { category: true },
+        skip,
+        take: perPage,
+        orderBy: { date: "desc" },
+      }),
+      prisma.expense.count({
+        where: whereClause,
+      }),
+    ]);
+  
+    return { expenses, totalCount };
   }
 }

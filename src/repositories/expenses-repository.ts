@@ -15,6 +15,15 @@ export interface FindManyExpensesParams {
   userId: string;
 }
 
+export interface FindFilteredExpensesParams extends FindManyExpensesParams {
+  startDate?: string;       
+  endDate?: string;          
+  category?: number;         
+  payment_method?: string;
+  minAmount?: number;
+  maxAmount?: number;
+}
+
 export interface FindManyExpensesResponse {
   expenses: Expense[];
   totalCount: number;
@@ -23,4 +32,5 @@ export interface FindManyExpensesResponse {
 export interface ExpensesRepository {
   create(data: CreateExpenseDTO): Promise<Expense>;
   findMany(params: FindManyExpensesParams): Promise<FindManyExpensesResponse>;
+  findFiltered(params: FindFilteredExpensesParams): Promise<FindManyExpensesResponse>;
 }
