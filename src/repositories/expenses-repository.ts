@@ -9,6 +9,18 @@ export interface CreateExpenseDTO {
   userId: string;
 }
 
+export interface FindManyExpensesParams {
+  page: number;
+  perPage: number;
+  userId: string;
+}
+
+export interface FindManyExpensesResponse {
+  expenses: Expense[];
+  totalCount: number;
+}
+
 export interface ExpensesRepository {
   create(data: CreateExpenseDTO): Promise<Expense>;
+  findMany(params: FindManyExpensesParams): Promise<FindManyExpensesResponse>;
 }
