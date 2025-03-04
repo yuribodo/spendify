@@ -1,5 +1,5 @@
 import { Expense, Prisma } from "@prisma/client";
-import { ExpensesRepository, CreateExpenseDTO } from "@/repositories/expenses-repository";
+import { ExpensesRepository, CreateExpenseDTO, FindManyExpensesParams, FindManyExpensesResponse } from "@/repositories/expenses-repository";
 
 export class InMemoryExpensesRepository implements ExpensesRepository {
   public items: Expense[] = [];
@@ -20,5 +20,21 @@ export class InMemoryExpensesRepository implements ExpensesRepository {
     this.items.push(expense);
 
     return expense;
+  }
+
+  async findMany({ page, perPage, userId }: FindManyExpensesParams): Promise<FindManyExpensesResponse> {
+    const filteredItems = this.items.filter(expense => expense.userId === userId);
+    
+    const sortedItems = [...filteredItems].sort((a, b) => 
+      b.date.getTime() - a.date.getTime()
+    );
+    
+    const skip = (page - 1) * perPage;
+    const paginatedItems = sortedItems.slice(skip, skip + perPage);
+
+    return {
+      expenses: paginatedItems,
+      totalCount: filteredItems.length,
+    };
   }
 }
