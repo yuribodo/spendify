@@ -22,29 +22,16 @@ export class PrismaExpensesRepository implements ExpensesRepository {
 
     const [expenses, totalCount] = await Promise.all([
       prisma.expense.findMany({
-        where: {
-          userId,
-        },
-        include: {
-          category: true,
-        },
+        where: { userId },
+        include: { category: true },
         skip,
         take: perPage,
-        orderBy: {
-          date: 'desc',
-        },
+        orderBy: { date: 'desc' },
       }),
-      prisma.expense.count({
-        where: {
-          userId,
-        },
-      }),
+      prisma.expense.count({ where: { userId } }),
     ]);
 
-    return {
-      expenses,
-      totalCount,
-    };
+    return { expenses, totalCount };
   }
 
   async findFiltered({
@@ -60,7 +47,7 @@ export class PrismaExpensesRepository implements ExpensesRepository {
   }: FindFilteredExpensesParams): Promise<FindManyExpensesResponse> {
     const skip = (page - 1) * perPage;
     const whereClause: any = { userId };
-  
+
     if (startDate || endDate) {
       whereClause.date = {};
       if (startDate) {
@@ -70,15 +57,15 @@ export class PrismaExpensesRepository implements ExpensesRepository {
         whereClause.date.lte = new Date(endDate);
       }
     }
-  
+
     if (category) {
       whereClause.categoryId = category;
     }
-  
+
     if (payment_method) {
       whereClause.payment_method = payment_method;
     }
-  
+
     if (minAmount || maxAmount) {
       whereClause.value = {};
       if (minAmount) {
@@ -88,7 +75,7 @@ export class PrismaExpensesRepository implements ExpensesRepository {
         whereClause.value.lte = maxAmount;
       }
     }
-  
+
     const [expenses, totalCount] = await Promise.all([
       prisma.expense.findMany({
         where: whereClause,
@@ -97,11 +84,17 @@ export class PrismaExpensesRepository implements ExpensesRepository {
         take: perPage,
         orderBy: { date: "desc" },
       }),
-      prisma.expense.count({
-        where: whereClause,
-      }),
+      prisma.expense.count({ where: whereClause }),
     ]);
-  
+
     return { expenses, totalCount };
+  }
+
+  async findById({ id, userId }: { id: number; userId: string }): Promise<Expense | null> {
+    const expense = await prisma.expense.findFirst({
+      where: { id, userId },
+      include: { category: true },
+    });
+    return expense;
   }
 }

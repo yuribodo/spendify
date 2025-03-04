@@ -92,4 +92,9 @@ export class InMemoryExpensesRepository implements ExpensesRepository {
       totalCount: filteredItems.length,
     };
   }
+
+  async findById({ id, userId }: { id: number; userId: string }): Promise<Expense | null> {
+    const expense = this.items.find(exp => exp.id === id && exp.userId === userId);
+    return expense || null;
+  }
 }
