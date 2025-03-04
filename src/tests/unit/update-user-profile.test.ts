@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { InMemoryUsersRepository } from '../repositories/in-memory/in-memory-users-repository'
-import { UpdateProfileUseCase } from './update-user-profile'
-import { UserNotFoundError } from './errors/user-not-found-error'
-import { UserAlreadyExistsError } from './errors/user-already-exists-error'
+import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
+import { UpdateProfileUseCase } from '@/use-cases/update-user-profile'
+import { UserNotFoundError } from '@/use-cases/errors/user-not-found-error'
+import { UserAlreadyExistsError } from '@/use-cases/errors/user-already-exists-error'
 
 const mockHash = vi.fn()
 vi.mock('bcryptjs', () => ({
