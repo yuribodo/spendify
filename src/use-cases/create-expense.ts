@@ -1,7 +1,7 @@
 import { Expense } from "@prisma/client";
 import { ExpensesRepository } from "@/repositories/expenses-repository";
 
-interface CreateExpenseUseCaseRequest {
+export interface CreateExpenseUseCaseRequest {
   description: string;
   date: Date;
   value: number;
@@ -10,7 +10,7 @@ interface CreateExpenseUseCaseRequest {
   userId: string;
 }
 
-interface CreateExpenseUseCaseResponse {
+export interface CreateExpenseUseCaseResponse {
   expense: Expense;
 }
 
@@ -25,6 +25,15 @@ export class CreateExpenseUseCase {
     payment_method,
     userId,
   }: CreateExpenseUseCaseRequest): Promise<CreateExpenseUseCaseResponse> {
+
+    if (value < 0) {
+      throw new Error('Expense value cannot be negative');
+    }
+
+    if (!categoryId) {
+      throw new Error('Expense must have a category');
+    }
+
     const expense = await this.expensesRepository.create({
       description,
       date,
