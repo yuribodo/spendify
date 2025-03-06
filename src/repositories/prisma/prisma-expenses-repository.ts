@@ -1,4 +1,4 @@
-import { ExpensesRepository, CreateExpenseDTO, FindManyExpensesParams, FindManyExpensesResponse, FindFilteredExpensesParams } from "../expenses-repository";
+import { ExpensesRepository, CreateExpenseDTO, UpdateExpenseDTO, FindManyExpensesParams, FindManyExpensesResponse, FindFilteredExpensesParams } from "../expenses-repository";
 import { Expense } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
@@ -12,6 +12,20 @@ export class PrismaExpensesRepository implements ExpensesRepository {
         payment_method: data.payment_method,
         categoryId: data.categoryId,
         userId: data.userId,
+      },
+    });
+    return expense;
+  }
+
+  async update(data: UpdateExpenseDTO): Promise<Expense> {
+    const expense = await prisma.expense.update({
+      where: { id: data.id },
+      data: {
+        description: data.description,
+        date: data.date,
+        value: data.value,
+        payment_method: data.payment_method,
+        categoryId: data.categoryId,
       },
     });
     return expense;
@@ -90,7 +104,15 @@ export class PrismaExpensesRepository implements ExpensesRepository {
     return { expenses, totalCount };
   }
 
-  async findById({ id, userId }: { id: number; userId: string }): Promise<Expense | null> {
+  async findById({ id, userId }: { id: number; userId: string | null }): Promise<Expense | null> {
+    if (userId === null) {
+      const expense = await prisma.expense.findUnique({
+        where: { id },
+        include: { category: true },
+      });
+      return expense;
+    }
+    
     const expense = await prisma.expense.findFirst({
       where: { id, userId },
       include: { category: true },
