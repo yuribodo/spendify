@@ -2,7 +2,7 @@ import { User } from "@prisma/client";
 import { randomBytes } from "crypto";
 import { addHours } from "date-fns";
 import { UsersRepository } from "@/repositories/users-repository";
-import { PrismaUsersRepository } from "../repositories/prisma/prisma-users-repository";
+import { PrismaUsersRepository } from "@/repositories/prisma/prisma-users-repository";
 
 interface ForgotPasswordUseCaseRequest {
     email: string;

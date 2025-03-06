@@ -1,7 +1,7 @@
 import { hash } from "bcryptjs";
 import { prisma } from "@/lib/prisma";
-import { InvalidResetTokenError } from "./errors/invalid-reset-token-error";
-import { ExpiredResetTokenError } from "./errors/expired-reset-token-error";
+import { InvalidResetTokenError } from "../errors/invalid-reset-token-error";
+import { ExpiredResetTokenError } from "../errors/expired-reset-token-error";
 
 interface ResetPasswordUseCaseRequest {
     token: string;
