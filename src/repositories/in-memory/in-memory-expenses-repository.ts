@@ -52,6 +52,18 @@ export class InMemoryExpensesRepository implements ExpensesRepository {
     return updatedExpense;
   }
 
+  async delete(id: number): Promise<void> {
+    const expenseIndex = this.items.findIndex(
+      (expense) => expense.id === id
+    );
+
+    if (expenseIndex === -1) {
+      throw new Error("Expense not found");
+    }
+
+    this.items.splice(expenseIndex, 1);
+  }
+
   async findMany({ page, perPage, userId }: FindManyExpensesParams): Promise<FindManyExpensesResponse> {
     const filteredItems = this.items.filter(expense => expense.userId === userId);
 
