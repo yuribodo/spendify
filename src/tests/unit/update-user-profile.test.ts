@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
-import { UpdateProfileUseCase } from '@/use-cases/update-user-profile'
+import { UpdateProfileUseCase } from '@/use-cases/user-use-cases/update-user-profile'
 import { UserNotFoundError } from '@/use-cases/errors/user-not-found-error'
 import { UserAlreadyExistsError } from '@/use-cases/errors/user-already-exists-error'
 
