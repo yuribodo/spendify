@@ -31,6 +31,12 @@ export class PrismaExpensesRepository implements ExpensesRepository {
     return expense;
   }
 
+  async delete(id: number): Promise<void> {
+    await prisma.expense.delete({
+      where: { id },
+    });
+  }
+
   async findMany({ page, perPage, userId }: FindManyExpensesParams): Promise<FindManyExpensesResponse> {
     const skip = (page - 1) * perPage;
 
@@ -105,6 +111,7 @@ export class PrismaExpensesRepository implements ExpensesRepository {
   }
 
   async findById({ id, userId }: { id: number; userId: string | null }): Promise<Expense | null> {
+    // Se userId for null, busca apenas pelo id
     if (userId === null) {
       const expense = await prisma.expense.findUnique({
         where: { id },
@@ -113,6 +120,7 @@ export class PrismaExpensesRepository implements ExpensesRepository {
       return expense;
     }
     
+    // Caso contrário, busca pelo id E userId
     const expense = await prisma.expense.findFirst({
       where: { id, userId },
       include: { category: true },
