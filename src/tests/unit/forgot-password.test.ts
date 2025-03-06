@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
-import { ForgotPasswordUseCase } from '@/use-cases/forgot-password'
+import { ForgotPasswordUseCase } from '@/use-cases/user-use-cases/forgot-password'
 import { randomBytes } from "crypto"
 import { addHours } from "date-fns"
 

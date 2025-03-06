@@ -1,5 +1,5 @@
 import { PrismaExpensesRepository } from "@/repositories/prisma/prisma-expenses-repository";
-import { GetFilteredExpensesUseCase } from "../get-filtered-expenses";
+import { GetFilteredExpensesUseCase } from "../expense-use-cases/get-filtered-expenses";
 
 export function makeGetFilteredExpensesUseCase() {
   const expensesRepository = new PrismaExpensesRepository();

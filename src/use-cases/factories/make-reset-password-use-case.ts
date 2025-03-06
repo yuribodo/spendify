@@ -1,4 +1,4 @@
-import { ResetPasswordUseCase } from "../reset-password";
+import { ResetPasswordUseCase } from "../user-use-cases/reset-password"
 
 export function makeResetPasswordUseCase() {
     const resetPasswordUseCase = new ResetPasswordUseCase()
