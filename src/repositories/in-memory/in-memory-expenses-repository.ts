@@ -2,6 +2,7 @@ import { Expense, Prisma } from "@prisma/client";
 import {
   ExpensesRepository,
   CreateExpenseDTO,
+  UpdateExpenseDTO,
   FindManyExpensesParams,
   FindManyExpensesResponse,
   FindFilteredExpensesParams,
@@ -26,6 +27,29 @@ export class InMemoryExpensesRepository implements ExpensesRepository {
     this.items.push(expense);
 
     return expense;
+  }
+
+  async update(data: UpdateExpenseDTO): Promise<Expense> {
+    const expenseIndex = this.items.findIndex(
+      (expense) => expense.id === data.id
+    );
+
+    if (expenseIndex === -1) {
+      throw new Error("Expense not found");
+    }
+
+    const updatedExpense: Expense = {
+      ...this.items[expenseIndex],
+      description: data.description,
+      date: data.date,
+      value: new Prisma.Decimal(data.value),
+      payment_method: data.payment_method || null,
+      categoryId: data.categoryId,
+    };
+
+    this.items[expenseIndex] = updatedExpense;
+
+    return updatedExpense;
   }
 
   async findMany({ page, perPage, userId }: FindManyExpensesParams): Promise<FindManyExpensesResponse> {
@@ -93,7 +117,14 @@ export class InMemoryExpensesRepository implements ExpensesRepository {
     };
   }
 
-  async findById({ id, userId }: { id: number; userId: string }): Promise<Expense | null> {
+  async findById({ id, userId }: { id: number; userId: string | null }): Promise<Expense | null> {
+    // Se userId for null, busca apenas pelo id
+    if (userId === null) {
+      const expense = this.items.find(exp => exp.id === id);
+      return expense || null;
+    }
+    
+    // Caso contrário, busca pelo id E userId
     const expense = this.items.find(exp => exp.id === id && exp.userId === userId);
     return expense || null;
   }
