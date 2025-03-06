@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
-import { ResetPasswordUseCase } from '@/use-cases/reset-password'
+import { ResetPasswordUseCase } from '@/use-cases/user-use-cases/reset-password'
 import { hash } from 'bcryptjs'
 import { InvalidResetTokenError } from '@/use-cases/errors/invalid-reset-token-error'
 import { ExpiredResetTokenError } from '@/use-cases/errors/expired-reset-token-error'

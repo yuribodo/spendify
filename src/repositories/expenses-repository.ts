@@ -42,6 +42,7 @@ export interface FindManyExpensesResponse {
 export interface ExpensesRepository {
   create(data: CreateExpenseDTO): Promise<Expense>;
   update(data: UpdateExpenseDTO): Promise<Expense>;
+  delete(id: number): Promise<void>;
   findMany(params: FindManyExpensesParams): Promise<FindManyExpensesResponse>;
   findFiltered(params: FindFilteredExpensesParams): Promise<FindManyExpensesResponse>;
   findById(params: { id: number; userId: string | null }): Promise<Expense | null>;
