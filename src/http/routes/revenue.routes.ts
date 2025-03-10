@@ -4,6 +4,7 @@ import { getAllRevenues } from "../controllers/revenue/get-all-revenues";
 import { filterRevenues } from "../controllers/revenue/filter-revenues";
 import { getRevenueDetails } from "../controllers/revenue/get-revenue-details";
 import { updateRevenue } from "../controllers/revenue/update-revenue";
+import { deleteRevenue } from "../controllers/revenue/delete-revenue";
 
 export async function revenueRoutes(app: FastifyInstance) {
   app.post("/", { preHandler: [app.authenticate] }, createRevenue);
@@ -11,4 +12,5 @@ export async function revenueRoutes(app: FastifyInstance) {
   app.get("/filtered", { preHandler: [app.authenticate] }, filterRevenues);
   app.get("/:id", { preHandler: [app.authenticate] }, getRevenueDetails);
   app.put("/:id", {preHandler: [app.authenticate]}, updateRevenue)
+  app.delete("/:id", {preHandler: [app.authenticate]}, deleteRevenue)
 }
