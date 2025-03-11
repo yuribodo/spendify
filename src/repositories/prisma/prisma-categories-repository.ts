@@ -1,6 +1,6 @@
-import { Category } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
-import { CategoriesRepository, CreateCategoryDTO } from "../categories-repository";
+import { Category } from "@prisma/client";
+import { CategoriesRepository, CreateCategoryDTO, UpdateCategoryDTO } from "../categories-repository";
 
 export class PrismaCategoriesRepository implements CategoriesRepository {
   async create(data: CreateCategoryDTO): Promise<Category> {
@@ -9,7 +9,7 @@ export class PrismaCategoriesRepository implements CategoriesRepository {
         title: data.title,
       },
     });
-    
+
     return category;
   }
 
@@ -41,5 +41,18 @@ export class PrismaCategoriesRepository implements CategoriesRepository {
     });
 
     return categories;
+  }
+
+  async update(id: number, data: UpdateCategoryDTO): Promise<Category> {
+    const category = await prisma.category.update({
+      where: {
+        id,
+      },
+      data: {
+        title: data.title,
+      },
+    });
+
+    return category;
   }
 }
