@@ -1,12 +1,12 @@
-import { Expense, Prisma } from "@prisma/client";
 import {
-  ExpensesRepository,
   CreateExpenseDTO,
-  UpdateExpenseDTO,
+  ExpensesRepository,
+  FindFilteredExpensesParams,
   FindManyExpensesParams,
   FindManyExpensesResponse,
-  FindFilteredExpensesParams,
+  UpdateExpenseDTO,
 } from "@/repositories/expenses-repository";
+import { Expense, Prisma } from "@prisma/client";
 
 export class InMemoryExpensesRepository implements ExpensesRepository {
   public items: Expense[] = [];
@@ -129,15 +129,26 @@ export class InMemoryExpensesRepository implements ExpensesRepository {
     };
   }
 
-  async findById({ id, userId }: { id: number; userId: string | null }): Promise<Expense | null> {
-    // Se userId for null, busca apenas pelo id
-    if (userId === null) {
-      const expense = this.items.find(exp => exp.id === id);
-      return expense || null;
+  async findById(params: { id: number; userId: string | null }): Promise<Expense | null> {
+    const { id, userId } = params;
+
+    const expense = this.items.find((item) => {
+      if (userId === null) {
+        return item.id === id;
+      }
+      return item.id === id && item.userId === userId;
+    });
+
+    if (!expense) {
+      return null;
     }
-    
-    // Caso contrário, busca pelo id E userId
-    const expense = this.items.find(exp => exp.id === id && exp.userId === userId);
-    return expense || null;
+
+    return expense;
+  }
+
+  async findByCategoryId(categoryId: number): Promise<Expense[]> {
+    const expenses = this.items.filter(item => item.categoryId === categoryId);
+
+    return expenses;
   }
 }

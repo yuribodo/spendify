@@ -1,6 +1,6 @@
-import { ExpensesRepository, CreateExpenseDTO, UpdateExpenseDTO, FindManyExpensesParams, FindManyExpensesResponse, FindFilteredExpensesParams } from "../expenses-repository";
-import { Expense } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import { Expense } from "@prisma/client";
+import { CreateExpenseDTO, ExpensesRepository, FindFilteredExpensesParams, FindManyExpensesParams, FindManyExpensesResponse, UpdateExpenseDTO } from "../expenses-repository";
 
 export class PrismaExpensesRepository implements ExpensesRepository {
   async create(data: CreateExpenseDTO): Promise<Expense> {
@@ -110,21 +110,26 @@ export class PrismaExpensesRepository implements ExpensesRepository {
     return { expenses, totalCount };
   }
 
-  async findById({ id, userId }: { id: number; userId: string | null }): Promise<Expense | null> {
-    // Se userId for null, busca apenas pelo id
-    if (userId === null) {
-      const expense = await prisma.expense.findUnique({
-        where: { id },
-        include: { category: true },
-      });
-      return expense;
-    }
-    
-    // Caso contrário, busca pelo id E userId
+  async findById(params: { id: number; userId: string | null }): Promise<Expense | null> {
+    const { id, userId } = params;
+
     const expense = await prisma.expense.findFirst({
-      where: { id, userId },
-      include: { category: true },
+      where: {
+        id,
+        ...(userId ? { userId } : {}),
+      },
     });
+
     return expense;
+  }
+
+  async findByCategoryId(categoryId: number): Promise<Expense[]> {
+    const expenses = await prisma.expense.findMany({
+      where: {
+        categoryId,
+      },
+    });
+
+    return expenses;
   }
 }

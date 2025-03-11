@@ -14,4 +14,5 @@ export interface CategoriesRepository {
   findById(id: number): Promise<Category | null>;
   findMany(): Promise<Category[]>;
   update(id: number, data: UpdateCategoryDTO): Promise<Category>;
+  delete(id: number): Promise<void>;
 }
