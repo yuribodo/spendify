@@ -1,4 +1,4 @@
-import { makeGetIncomeBySourceReportUseCase } from "@/use-cases/factories/make-get-income-by-source-report-use-case";
+import { makeGetIncomeBySourceReportUseCase } from "@/factories/reports/make-get-income-by-source-report-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 

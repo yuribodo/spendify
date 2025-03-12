@@ -1,4 +1,4 @@
-import { makeUpdateCategoryUseCase } from "@/use-cases/factories/make-update-category-use-case";
+import { makeUpdateCategoryUseCase } from "@/factories/categories/make-update-category-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 

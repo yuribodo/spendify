@@ -1,5 +1,5 @@
 import { DataType, ExportFormat } from "@/use-cases/export/export-financial-data";
-import { makeExportFinancialDataUseCase } from "@/use-cases/factories/make-export-financial-data-use-case";
+import { makeExportFinancialDataUseCase } from "@/factories/export/make-export-financial-data-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 

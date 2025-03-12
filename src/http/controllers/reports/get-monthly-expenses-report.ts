@@ -1,4 +1,4 @@
-import { makeGetMonthlyExpensesReportUseCase } from "@/use-cases/factories/make-get-monthly-expenses-report-use-case";
+import { makeGetMonthlyExpensesReportUseCase } from "@/factories/reports/make-get-monthly-expenses-report-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 

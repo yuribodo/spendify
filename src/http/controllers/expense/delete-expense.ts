@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { makeDeleteExpenseUseCase } from "@/use-cases/factories/make-delete-expense-use-case";
+import { makeDeleteExpenseUseCase } from "@/factories/expenses/make-delete-expense-use-case";
 
 export async function deleteExpense(request: FastifyRequest, reply: FastifyReply) {
   const deleteExpenseParamsSchema = z.object({

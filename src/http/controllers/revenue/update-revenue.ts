@@ -1,5 +1,5 @@
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
-import { makeUpdateRevenueUseCase } from "@/use-cases/factories/make-update-revenue-use-case";
+import { makeUpdateRevenueUseCase } from "@/factories/revenues/make-update-revenue-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 

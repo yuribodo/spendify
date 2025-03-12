@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { makeFilterRevenuesUseCase } from "@/use-cases/factories/make-filter-revenue-use-case";
+import { makeFilterRevenuesUseCase } from "@/factories/revenues/make-filter-revenue-use-case";
 
 export async function filterRevenues(request: FastifyRequest, reply: FastifyReply) {
   const filterRevenuesQuerySchema = z.object({

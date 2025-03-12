@@ -1,6 +1,6 @@
 import { UserAlreadyExistsError } from "@/errors/user-already-exists-error";
 import { UserNotFoundError } from "@/errors/user-not-found-error";
-import { makeUpdateProfileUseCase } from "@/use-cases/factories/make-update-user-profile-use-case";
+import { makeUpdateProfileUseCase } from "@/factories/user/make-update-user-profile-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 

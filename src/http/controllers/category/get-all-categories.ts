@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { makeGetAllCategoriesUseCase } from "@/use-cases/factories/make-get-all-categories-use-case";
+import { makeGetAllCategoriesUseCase } from "@/factories/categories/make-get-all-categories-use-case";
 
 export async function getAllCategories(request: FastifyRequest, reply: FastifyReply) {
   try {

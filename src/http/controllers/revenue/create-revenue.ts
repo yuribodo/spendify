@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { makeCreateRevenueUseCase } from "@/use-cases/factories/make-create-revenue-use-case";
+import { makeCreateRevenueUseCase } from "@/factories/revenues/make-create-revenue-use-case";
 
 export async function createRevenue(request: FastifyRequest, reply: FastifyReply) {
   const createRevenueSchema = z.object({

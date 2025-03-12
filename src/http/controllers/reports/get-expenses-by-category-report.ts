@@ -1,4 +1,4 @@
-import { makeGetExpensesByCategoryReportUseCase } from "@/use-cases/factories/make-get-expenses-by-category-report-use-case";
+import { makeGetExpensesByCategoryReportUseCase } from "@/factories/reports/make-get-expenses-by-category-report-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 

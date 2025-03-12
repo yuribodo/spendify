@@ -1,4 +1,4 @@
-import { makeGetFinancialSummaryUseCase } from "@/use-cases/factories/make-get-financial-summary-use-case";
+import { makeGetFinancialSummaryUseCase } from "@/factories/reports/make-get-financial-summary-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 

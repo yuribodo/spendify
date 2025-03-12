@@ -1,4 +1,4 @@
-import { makeDeleteCategoryUseCase } from "@/use-cases/factories/make-delete-category-use-case";
+import { makeDeleteCategoryUseCase } from "@/factories/categories/make-delete-category-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
