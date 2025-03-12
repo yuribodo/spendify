@@ -1,6 +1,6 @@
-import { RevenuesRepository, CreateRevenueDTO, UpdateRevenueDTO, FindManyRevenuesParams, FindManyRevenuesResponse, FindFilteredRevenuesParams } from "../revenues-repository";
-import { Revenue } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import { Revenue } from "@prisma/client";
+import { CreateRevenueDTO, FindFilteredRevenuesParams, FindManyRevenuesParams, FindManyRevenuesResponse, RevenuesRepository, UpdateRevenueDTO } from "../revenues-repository";
 
 export class PrismaRevenuesRepository implements RevenuesRepository {
   async create(data: CreateRevenueDTO): Promise<Revenue> {
@@ -110,21 +110,26 @@ export class PrismaRevenuesRepository implements RevenuesRepository {
     return { revenues, totalCount };
   }
 
-  async findById({ id, userId }: { id: number; userId: string | null }): Promise<Revenue | null> {
-    // Se userId for null, busca apenas pelo id
-    if (userId === null) {
-      const revenue = await prisma.revenue.findUnique({
-        where: { id },
-        include: { category: true },
-      });
-      return revenue;
-    }
-    
-    // Caso contrário, busca pelo id E userId
+  async findById(params: { id: number; userId: string | null }): Promise<Revenue | null> {
+    const { id, userId } = params;
+
     const revenue = await prisma.revenue.findFirst({
-      where: { id, userId },
-      include: { category: true },
+      where: {
+        id,
+        ...(userId ? { userId } : {}),
+      },
     });
+
     return revenue;
+  }
+
+  async findByCategoryId(categoryId: number): Promise<Revenue[]> {
+    const revenues = await prisma.revenue.findMany({
+      where: {
+        categoryId,
+      },
+    });
+
+    return revenues;
   }
 }

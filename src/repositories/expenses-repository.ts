@@ -46,4 +46,5 @@ export interface ExpensesRepository {
   findMany(params: FindManyExpensesParams): Promise<FindManyExpensesResponse>;
   findFiltered(params: FindFilteredExpensesParams): Promise<FindManyExpensesResponse>;
   findById(params: { id: number; userId: string | null }): Promise<Expense | null>;
+  findByCategoryId(categoryId: number): Promise<Expense[]>;
 }

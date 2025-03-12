@@ -1,7 +1,7 @@
+import { InvalidCredentialsError } from "@/errors/invalid-credentials-error";
+import { makeAuthenticateUseCase } from "@/factories/user/make-authenticate-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials-error";
-import { makeAuthenticateUseCase } from "@/use-cases/factories/make-authenticate-use-case";
 
 export async function authenticate(request: FastifyRequest, reply: FastifyReply) {
     const authenticateBodySchema = z.object({
@@ -9,12 +9,12 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
         password: z.string().min(6),
     });
 
-    const { email, password} = authenticateBodySchema.parse(request.body)
+    const { email, password } = authenticateBodySchema.parse(request.body)
 
     try {
         const authenticateUseCase = makeAuthenticateUseCase();
 
-        const {user} = await authenticateUseCase.execute({
+        const { user } = await authenticateUseCase.execute({
             email,
             password,
         });
@@ -35,7 +35,7 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
         })
     } catch (error) {
         if (error instanceof InvalidCredentialsError) {
-            return reply.status(401).send({message: error.message})
+            return reply.status(401).send({ message: error.message })
         }
     }
 }

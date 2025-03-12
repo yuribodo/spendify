@@ -46,4 +46,5 @@ export interface RevenuesRepository {
   findMany(params: FindManyRevenuesParams): Promise<FindManyRevenuesResponse>;
   findFiltered(params: FindFilteredRevenuesParams): Promise<FindManyRevenuesResponse>;
   findById(params: { id: number; userId: string | null }): Promise<Revenue | null>;
+  findByCategoryId(categoryId: number): Promise<Revenue[]>;
 }

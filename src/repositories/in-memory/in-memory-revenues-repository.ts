@@ -1,12 +1,12 @@
-import { Revenue, Prisma } from "@prisma/client";
 import {
-  RevenuesRepository,
   CreateRevenueDTO,
-  UpdateRevenueDTO,
+  FindFilteredRevenuesParams,
   FindManyRevenuesParams,
   FindManyRevenuesResponse,
-  FindFilteredRevenuesParams,
+  RevenuesRepository,
+  UpdateRevenueDTO,
 } from "@/repositories/revenues-repository";
+import { Prisma, Revenue } from "@prisma/client";
 
 export class InMemoryRevenuesRepository implements RevenuesRepository {
   public items: Revenue[] = [];
@@ -129,13 +129,26 @@ export class InMemoryRevenuesRepository implements RevenuesRepository {
     };
   }
 
-  async findById({ id, userId }: { id: number; userId: string | null }): Promise<Revenue | null> {
-    if (userId === null) {
-      const revenue = this.items.find(rev => rev.id === id);
-      return revenue || null;
+  async findById(params: { id: number; userId: string | null }): Promise<Revenue | null> {
+    const { id, userId } = params;
+
+    const revenue = this.items.find((item) => {
+      if (userId === null) {
+        return item.id === id;
+      }
+      return item.id === id && item.userId === userId;
+    });
+
+    if (!revenue) {
+      return null;
     }
-    
-    const revenue = this.items.find(rev => rev.id === id && rev.userId === userId);
-    return revenue || null;
+
+    return revenue;
+  }
+
+  async findByCategoryId(categoryId: number): Promise<Revenue[]> {
+    const revenues = this.items.filter(item => item.categoryId === categoryId);
+
+    return revenues;
   }
 }

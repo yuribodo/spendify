@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { makeCreateExpenseUseCase } from "@/use-cases/factories/make-create-expense-use-case";
+import { makeCreateExpenseUseCase } from "@/factories/expenses/make-create-expense-use-case";
 
 export async function createExpense(request: FastifyRequest, reply: FastifyReply) {
   const createExpenseSchema = z.object({
