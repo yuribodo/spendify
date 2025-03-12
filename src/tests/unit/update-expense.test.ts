@@ -1,5 +1,5 @@
 import { InMemoryExpensesRepository } from '@/repositories/in-memory/in-memory-expenses-repository';
-import { UpdateExpenseUseCase, UpdateExpenseUseCaseRequest } from '@/use-cases/expense-use-cases/update-expense';
+import { UpdateExpenseUseCase, UpdateExpenseUseCaseRequest } from '@/use-cases/expenses/update-expense';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 let expensesRepository: InMemoryExpensesRepository;

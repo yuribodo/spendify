@@ -1,7 +1,7 @@
+import { ResourceNotFoundError } from '@/errors/resource-not-found-error';
 import { InMemoryRevenuesRepository } from '@/repositories/in-memory/in-memory-revenues-repository';
-import { GetRevenueDetailsUseCase } from '@/use-cases/revenues-use-cases/get-revenue-details';
+import { GetRevenueDetailsUseCase } from '@/use-cases/revenues/get-revenue-details';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error';
 
 let revenuesRepository: InMemoryRevenuesRepository;
 let sut: GetRevenueDetailsUseCase;

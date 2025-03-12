@@ -1,19 +1,19 @@
+import { UserNotFoundError } from "@/errors/user-not-found-error";
+import { makeForgotPasswordUseCase } from "@/use-cases/factories/make-forgot-password-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { UserNotFoundError } from "@/use-cases/errors/user-not-found-error";
-import { makeForgotPasswordUseCase } from "@/use-cases/factories/make-forgot-password-use-case";
 
-export async function forgotPassword(request:FastifyRequest, reply: FastifyReply) {
+export async function forgotPassword(request: FastifyRequest, reply: FastifyReply) {
     const forgotPasswordBodySchema = z.object({
         email: z.string().email()
     });
 
-    const {email} = forgotPasswordBodySchema.parse(request.body)
+    const { email } = forgotPasswordBodySchema.parse(request.body)
 
     try {
         const forgotPasswordUseCase = makeForgotPasswordUseCase()
 
-        const {resetToken} = await forgotPasswordUseCase.execute({
+        const { resetToken } = await forgotPasswordUseCase.execute({
             email,
         });
 
@@ -24,7 +24,7 @@ export async function forgotPassword(request:FastifyRequest, reply: FastifyReply
         })
     } catch (error) {
         if (error instanceof UserNotFoundError) {
-            return reply.status(400).send({message: error.message})
+            return reply.status(400).send({ message: error.message })
         }
 
         throw error;

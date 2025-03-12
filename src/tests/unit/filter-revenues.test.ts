@@ -1,5 +1,5 @@
 import { InMemoryRevenuesRepository } from '@/repositories/in-memory/in-memory-revenues-repository';
-import { FilterRevenuesUseCase } from '@/use-cases/revenues-use-cases/filter-revenue';
+import { FilterRevenuesUseCase } from '@/use-cases/revenues/filter-revenue';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 let revenuesRepository: InMemoryRevenuesRepository;
@@ -16,7 +16,7 @@ describe('Filter Revenues Use Case', () => {
         description: 'Salary',
         date: new Date('2025-01-10'),
         value: 3000,
-        categoryId: 1, 
+        categoryId: 1,
         income_source: 'employment',
         userId: 'user-123',
       },
@@ -24,7 +24,7 @@ describe('Filter Revenues Use Case', () => {
         description: 'Freelance Project',
         date: new Date('2025-01-20'),
         value: 1500,
-        categoryId: 2, 
+        categoryId: 2,
         income_source: 'freelance',
         userId: 'user-123',
       },
@@ -48,7 +48,7 @@ describe('Filter Revenues Use Case', () => {
         description: 'Another Salary',
         date: new Date('2025-03-10'),
         value: 3100,
-        categoryId: 1, 
+        categoryId: 1,
         income_source: 'employment',
         userId: 'user-123',
       },
@@ -56,7 +56,7 @@ describe('Filter Revenues Use Case', () => {
         description: 'Other User Salary',
         date: new Date('2025-03-10'),
         value: 2500,
-        categoryId: 1, 
+        categoryId: 1,
         income_source: 'employment',
         userId: 'user-456',
       },
@@ -86,7 +86,7 @@ describe('Filter Revenues Use Case', () => {
       page: 1,
       perPage: 10,
       userId: 'user-123',
-      category: 1, 
+      category: 1,
     });
 
     expect(revenues).toHaveLength(2);
@@ -129,15 +129,15 @@ describe('Filter Revenues Use Case', () => {
       userId: 'user-123',
       startDate: '2025-01-01',
       endDate: '2025-03-31',
-      category: 1, 
+      category: 1,
       income_source: 'employment',
       minAmount: 3000,
     });
 
     expect(revenues).toHaveLength(2);
-    expect(revenues.every(revenue => 
-      revenue.categoryId === 1 && 
-      revenue.income_source === 'employment' && 
+    expect(revenues.every(revenue =>
+      revenue.categoryId === 1 &&
+      revenue.income_source === 'employment' &&
       revenue.value.toNumber() >= 3000
     )).toBe(true);
   });

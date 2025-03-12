@@ -1,6 +1,6 @@
+import { ResourceNotFoundError } from '@/errors/resource-not-found-error';
 import { InMemoryRevenuesRepository } from '@/repositories/in-memory/in-memory-revenues-repository';
-import { UpdateRevenueUseCase } from '@/use-cases/revenues-use-cases/update-revenue';
-import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error';
+import { UpdateRevenueUseCase } from '@/use-cases/revenues/update-revenue';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 let revenuesRepository: InMemoryRevenuesRepository;
@@ -84,7 +84,7 @@ describe('Update Revenue Use Case', () => {
       value: 1500,
       income_source: 'Freelance',
       userId: 'user-123',
-    } as any; 
+    } as any;
 
     await expect(sut.execute(updateData))
       .rejects.toThrow('Revenue must have a category');
@@ -131,7 +131,7 @@ describe('Update Revenue Use Case', () => {
 
   it('should update a revenue with optional income_source', async () => {
     const userId = 'user-123';
-    
+
 
     const createdRevenue = await revenuesRepository.create({
       description: 'Original Revenue',
@@ -151,8 +151,8 @@ describe('Update Revenue Use Case', () => {
       userId,
     });
 
-    expect(revenue.income_source).toEqual(null); 
-    
+    expect(revenue.income_source).toEqual(null);
+
 
     const updatedAgain = await sut.execute({
       id: createdRevenue.id,
@@ -169,7 +169,7 @@ describe('Update Revenue Use Case', () => {
 
   it('should maintain the same userId when updating a revenue', async () => {
     const userId = 'user-123';
-    
+
 
     const createdRevenue = await revenuesRepository.create({
       description: 'Original Revenue',

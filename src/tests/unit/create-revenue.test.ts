@@ -1,6 +1,6 @@
 import { InMemoryRevenuesRepository } from '@/repositories/in-memory/in-memory-revenues-repository';
+import { CreateRevenueUseCase, CreateRevenueUseCaseRequest } from '@/use-cases/revenues/create-revenue';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CreateRevenueUseCase, CreateRevenueUseCaseRequest } from '@/use-cases/revenues-use-cases/create-revenue';
 
 let revenuesRepository: InMemoryRevenuesRepository;
 let sut: CreateRevenueUseCase;

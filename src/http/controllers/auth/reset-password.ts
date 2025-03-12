@@ -1,8 +1,8 @@
+import { ExpiredResetTokenError } from "@/errors/expired-reset-token-error";
+import { InvalidResetTokenError } from "@/errors/invalid-reset-token-error";
+import { makeResetPasswordUseCase } from "@/use-cases/factories/make-reset-password-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { InvalidResetTokenError } from "@/use-cases/errors/invalid-reset-token-error";
-import { ExpiredResetTokenError } from "@/use-cases/errors/expired-reset-token-error";
-import { makeResetPasswordUseCase } from "@/use-cases/factories/make-reset-password-use-case";
 
 export async function resetPassword(request: FastifyRequest, reply: FastifyReply) {
     const resetPasswordBodySchema = z.object({
@@ -10,7 +10,7 @@ export async function resetPassword(request: FastifyRequest, reply: FastifyReply
         password: z.string().min(6),
     });
 
-    const {token, password} = resetPasswordBodySchema.parse(request.body)
+    const { token, password } = resetPasswordBodySchema.parse(request.body)
 
     try {
         const resetPasswordUseCase = makeResetPasswordUseCase();
@@ -25,10 +25,10 @@ export async function resetPassword(request: FastifyRequest, reply: FastifyReply
         });
     } catch (error) {
         if (error instanceof InvalidResetTokenError) {
-            return reply.status(400).send({message: error.message})
+            return reply.status(400).send({ message: error.message })
         }
         if (error instanceof ExpiredResetTokenError) {
-            return reply.status(400).send({message: error.message})
+            return reply.status(400).send({ message: error.message })
         }
     }
 }

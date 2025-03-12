@@ -1,7 +1,7 @@
+import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
+import { makeDeleteRevenueUseCase } from "@/use-cases/factories/make-delete-revenue-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { makeDeleteRevenueUseCase } from "@/use-cases/factories/make-delete-revenue-use-case";
-import { ResourceNotFoundError } from "@/use-cases/errors/resource-not-found-error";
 
 export async function deleteRevenue(request: FastifyRequest, reply: FastifyReply) {
   const deleteRevenueParamsSchema = z.object({

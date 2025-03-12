@@ -1,6 +1,6 @@
+import { ResourceNotFoundError } from '@/errors/resource-not-found-error';
 import { InMemoryRevenuesRepository } from '@/repositories/in-memory/in-memory-revenues-repository';
-import { DeleteRevenueUseCase } from '@/use-cases/revenues-use-cases/delete-revenue';
-import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error';
+import { DeleteRevenueUseCase } from '@/use-cases/revenues/delete-revenue';
 import { Prisma } from "@prisma/client";
 import { beforeEach, describe, expect, it } from 'vitest';
 

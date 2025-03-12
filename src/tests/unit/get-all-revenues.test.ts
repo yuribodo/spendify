@@ -1,7 +1,6 @@
 import { InMemoryRevenuesRepository } from '@/repositories/in-memory/in-memory-revenues-repository';
-import { GetAllRevenuesUseCase } from '@/use-cases/revenues-use-cases/get-all-revenues';
+import { GetAllRevenuesUseCase } from '@/use-cases/revenues/get-all-revenues';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { Prisma } from '@prisma/client';
 
 let revenuesRepository: InMemoryRevenuesRepository;
 let sut: GetAllRevenuesUseCase;
@@ -53,7 +52,7 @@ describe('Get All Revenues Use Case', () => {
 
     expect(revenues).toHaveLength(10);
     expect(totalCount).toBe(22);
-    expect(revenues[0].description).toBe('Revenue 12'); 
+    expect(revenues[0].description).toBe('Revenue 12');
   });
 
   it('should return only revenues from the specified user', async () => {

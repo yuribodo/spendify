@@ -1,5 +1,5 @@
 import { InMemoryExpensesRepository } from '@/repositories/in-memory/in-memory-expenses-repository';
-import { DeleteExpenseUseCase } from '@/use-cases/expense-use-cases/delete-expense';
+import { DeleteExpenseUseCase } from '@/use-cases/expenses/delete-expense';
 import { Prisma } from "@prisma/client";
 import { beforeEach, describe, expect, it } from 'vitest';
 

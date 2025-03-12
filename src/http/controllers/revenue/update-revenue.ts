@@ -1,7 +1,7 @@
+import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
+import { makeUpdateRevenueUseCase } from "@/use-cases/factories/make-update-revenue-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { makeUpdateRevenueUseCase } from "@/use-cases/factories/make-update-revenue-use-case";
-import { ResourceNotFoundError } from "@/use-cases/errors/resource-not-found-error";
 
 export async function updateRevenue(request: FastifyRequest, reply: FastifyReply) {
   const updateRevenueParamsSchema = z.object({
