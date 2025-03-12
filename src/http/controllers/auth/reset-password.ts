@@ -1,6 +1,6 @@
 import { ExpiredResetTokenError } from "@/errors/expired-reset-token-error";
 import { InvalidResetTokenError } from "@/errors/invalid-reset-token-error";
-import { makeResetPasswordUseCase } from "@/use-cases/factories/make-reset-password-use-case";
+import { makeResetPasswordUseCase } from "@/factories/user/make-reset-password-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 

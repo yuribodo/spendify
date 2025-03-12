@@ -1,5 +1,5 @@
 import { UserNotFoundError } from "@/errors/user-not-found-error";
-import { makeForgotPasswordUseCase } from "@/use-cases/factories/make-forgot-password-use-case";
+import { makeForgotPasswordUseCase } from "@/factories/user/make-forgot-password-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
