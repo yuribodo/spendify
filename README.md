@@ -27,23 +27,23 @@ Spendify is a complete API for personal finance management, allowing users to tr
 - ✅ View all revenue with pagination
 - ✅ Filter revenue (by date, category, income source, amount)
 - ✅ View specific revenue details
-- 🔄 Update existing revenue (in development)
-- 🔄 Delete revenue (in development)
+- ✅ Update existing revenue 
+- ✅ Delete revenue
 
 ### Category Management
-- 🔄 Create categories for both expenses and revenue (in development)
-- 🔄 View all available categories (in development)
-- 🔄 Update categories (in development)
-- 🔄 Delete unused categories (in development)
+- ✅ Create categories for both expenses and revenue 
+- ✅ View all available categories 
+- ✅ Update categories
+- ✅ Delete unused categories
 
 ### Reports and Insights
-- 🔄 Financial summary with selectable period (in development)
-- 🔄 Categorized reports (monthly expenses, expense categories, income sources) (in development)
-- 🔄 Export financial data to CSV or JSON (in development)
+- ✅ Financial summary with selectable period
+- ✅ Categorized reports (monthly expenses, expense categories, income sources) 
+- ✅ Export financial data to CSV or JSON 
 
 ### Security and Authentication
-- 🔄 JWT authentication for protected endpoints (in development)
-- 🔄 Restricted access to users' own financial data (in development)
+- ✅ JWT authentication for protected endpoints 
+- ✅ Restricted access to users' own financial data 
 
 ## 🔒 Business Rules
 
@@ -51,7 +51,7 @@ Spendify is a complete API for personal finance management, allowing users to tr
 - ✅ Revenue cannot be created without a category
 - ✅ Expenses cannot have negative values
 - ✅ Expenses cannot be created without a category
-- 🔄 Categories in use cannot be deleted (in development)
+- ✅ Categories in use cannot be deleted
 - 🔄 Financial records older than 6 months cannot be edited or deleted (in development)
 - 🔄 Notification when monthly expenses exceed 80% of income (in development)
 - 🔄 Calculation and display of remaining monthly budget (in development)
