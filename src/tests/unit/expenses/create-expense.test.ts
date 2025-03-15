@@ -1,14 +1,23 @@
 import { InMemoryExpensesRepository } from '@/repositories/in-memory/in-memory-expenses-repository';
 import { CreateExpenseUseCase, CreateExpenseUseCaseRequest } from '@/use-cases/expenses/create-expense';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 let expensesRepository: InMemoryExpensesRepository;
+let checkExpenseThresholdUseCase: any;
 let sut: CreateExpenseUseCase;
 
 describe('Create Expense Use Case', () => {
   beforeEach(() => {
     expensesRepository = new InMemoryExpensesRepository();
-    sut = new CreateExpenseUseCase(expensesRepository);
+
+    checkExpenseThresholdUseCase = {
+      execute: vi.fn().mockResolvedValue(undefined)
+    };
+
+    sut = new CreateExpenseUseCase(
+      expensesRepository,
+      checkExpenseThresholdUseCase
+    );
   });
 
   it('should be able to create an expense', async () => {
@@ -30,6 +39,12 @@ describe('Create Expense Use Case', () => {
     expect(expense.categoryId).toBe(expenseData.categoryId);
     expect(expense.payment_method).toBe(expenseData.payment_method);
     expect(expense.userId).toBe(expenseData.userId);
+
+    expect(checkExpenseThresholdUseCase.execute).toHaveBeenCalledWith({
+      userId: expenseData.userId,
+      year: expenseData.date.getFullYear(),
+      month: expenseData.date.getMonth() + 1,
+    });
   });
 
   it('should not allow creation of expense with negative value', async () => {
@@ -44,6 +59,8 @@ describe('Create Expense Use Case', () => {
 
     await expect(sut.execute(expenseData))
       .rejects.toThrow('Expense value cannot be negative');
+
+    expect(checkExpenseThresholdUseCase.execute).not.toHaveBeenCalled();
   });
 
   it('should not allow creation of expense without a category', async () => {
@@ -57,5 +74,7 @@ describe('Create Expense Use Case', () => {
 
     await expect(sut.execute(expenseData))
       .rejects.toThrow('Expense must have a category');
+
+    expect(checkExpenseThresholdUseCase.execute).not.toHaveBeenCalled();
   });
 });

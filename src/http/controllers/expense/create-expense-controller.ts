@@ -1,11 +1,11 @@
+import { makeCreateExpenseUseCase } from "@/factories/expenses/make-create-expense-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { makeCreateExpenseUseCase } from "@/factories/expenses/make-create-expense-use-case";
 
 export async function createExpense(request: FastifyRequest, reply: FastifyReply) {
   const createExpenseSchema = z.object({
     description: z.string(),
-    date: z.string(), 
+    date: z.string(),
     value: z.number(),
     categoryId: z.number(),
     payment_method: z.string().optional(),
