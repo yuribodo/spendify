@@ -1,10 +1,42 @@
+import fastifyJwt from "@fastify/jwt";
+import fastifySwagger from "@fastify/swagger";
+import fastifySwaggerUi from "@fastify/swagger-ui";
 import fastify, { FastifyReply, FastifyRequest } from "fastify";
 import { ZodError } from "zod";
-import { appRoutes } from "./http/routes";
 import { env } from "./env/index";
-import fastifyJwt from "@fastify/jwt";
+import { appRoutes } from "./http/routes";
 
 export const app = fastify()
+
+app.register(fastifySwagger, {
+    swagger: {
+        info: {
+            title: 'Spendify API',
+            description: 'API to manage personal finances',
+            version: '1.0.0'
+        },
+        host: 'localhost:3333',
+        schemes: ['http'],
+        consumes: ['application/json'],
+        produces: ['application/json'],
+        securityDefinitions: {
+            bearerAuth: {
+                type: 'apiKey',
+                name: 'Authorization',
+                in: 'header'
+            }
+        }
+    }
+});
+
+app.register(fastifySwaggerUi, {
+    routePrefix: '/docs',
+    uiConfig: {
+        docExpansion: 'list',
+        deepLinking: false
+    },
+    staticCSP: true
+});
 
 app.register(fastifyJwt, {
     secret: process.env.JWT_SECRET || 'secret'
@@ -22,7 +54,7 @@ app.register(appRoutes)
 
 app.setErrorHandler((error, _request, reply) => {
     if (error instanceof ZodError) {
-        return reply.status(400).send({message: 'Validation error.', issues: error.format()})
+        return reply.status(400).send({ message: 'Validation error.', issues: error.format() })
     }
 
     if (env.NODE_ENV !== 'production') {
@@ -31,5 +63,5 @@ app.setErrorHandler((error, _request, reply) => {
         // TODO: Here i should connect to an external tool like sentry
     }
 
-    return reply.status(500).send({message: 'Internal Server Error'})
+    return reply.status(500).send({ message: 'Internal Server Error' })
 })
