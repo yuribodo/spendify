@@ -52,9 +52,9 @@ Spendify is a complete API for personal finance management, allowing users to tr
 - ✅ Expenses cannot have negative values
 - ✅ Expenses cannot be created without a category
 - ✅ Categories in use cannot be deleted
-- 🔄 Financial records older than 6 months cannot be edited or deleted (in development)
-- 🔄 Notification when monthly expenses exceed 80% of income (in development)
-- 🔄 Calculation and display of remaining monthly budget (in development)
+- ✅ Financial records older than 6 months cannot be edited or deleted 
+- ✅ Notification when monthly expenses exceed 80% of income 
+- ✅ Calculation and display of remaining monthly budget
 
 ## 🛠️ Technologies Used
 
