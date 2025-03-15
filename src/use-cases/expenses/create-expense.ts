@@ -1,5 +1,6 @@
-import { Expense } from "@prisma/client";
 import { ExpensesRepository } from "@/repositories/expenses-repository";
+import { Expense } from "@prisma/client";
+import { CheckExpenseThresholdUseCase } from "../budget/check-expense-threshold";
 
 export interface CreateExpenseUseCaseRequest {
   description: string;
@@ -15,7 +16,10 @@ export interface CreateExpenseUseCaseResponse {
 }
 
 export class CreateExpenseUseCase {
-  constructor(private expensesRepository: ExpensesRepository) {}
+  constructor(
+    private expensesRepository: ExpensesRepository,
+    private checkExpenseThresholdUseCase: CheckExpenseThresholdUseCase
+  ) { }
 
   async execute({
     description,
@@ -41,6 +45,13 @@ export class CreateExpenseUseCase {
       categoryId,
       payment_method,
       userId,
+    });
+
+    // Verificar se as despesas ultrapassam o limite após a criação
+    await this.checkExpenseThresholdUseCase.execute({
+      userId,
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
     });
 
     return { expense };

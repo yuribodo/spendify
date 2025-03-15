@@ -1,7 +1,6 @@
 import { makeCreateExpenseUseCase } from "@/factories/expenses/make-create-expense-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { makeCheckExpenseThresholdUseCase } from "../../../use-cases/factories/make-check-expense-threshold-use-case";
 
 export async function createExpense(request: FastifyRequest, reply: FastifyReply) {
   const createExpenseSchema = z.object({
@@ -24,15 +23,6 @@ export async function createExpense(request: FastifyRequest, reply: FastifyReply
     categoryId,
     payment_method,
     userId,
-  });
-
-
-  const checkExpenseThresholdUseCase = makeCheckExpenseThresholdUseCase();
-
-  await checkExpenseThresholdUseCase.execute({
-    userId,
-    year: expenseDate.getFullYear(),
-    month: expenseDate.getMonth() + 1,
   });
 
   return reply.status(201).send(expense);
