@@ -5,9 +5,10 @@
   "scripts": {
     "start:dev": "tsx watch src/server.ts",
     "build": "tsc && tsc-alias",
+    "build:prod": "tsc --skipLibCheck --project tsconfig.json && tsc-alias",
     "postinstall": "prisma generate",
     "start": "node dist/server.js",
-    "deploy": "npm run build && npm start",
+    "deploy": "npm run build:prod && npm start",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
@@ -30,6 +31,7 @@
     "@fastify/swagger": "9.4.2",
     "@fastify/swagger-ui": "5.2.2",
     "@prisma/client": "6.4.1",
+    "@types/node": "22.13.5",
     "bcryptjs": "3.0.2",
     "date-fns": "4.1.0",
     "dotenv": "16.4.7",
@@ -39,7 +41,6 @@
     "zod": "3.24.2"
   },
   "devDependencies": {
-    "@types/node": "22.13.5",
     "@vitest/ui": "3.0.7",
     "rimraf": "6.0.1",
     "ts-node": "10.9.2",
