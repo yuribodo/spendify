@@ -5,9 +5,9 @@
   "scripts": {
     "start:dev": "tsx watch src/server.ts",
     "build": "tsc && tsc-alias",
-    "vercel-build": "npm run build",
-    "postinstall": "npx prisma generate",
-    "start": "node ../dist/src/server.js",
+    "postinstall": "prisma generate",
+    "start": "node dist/src/server.js",
+    "deploy": "npm run build && npm start",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
@@ -34,6 +34,7 @@
     "date-fns": "4.1.0",
     "dotenv": "16.4.7",
     "fastify": "5.2.1",
+    "prisma": "6.5.0",
     "tsup": "2.0.3",
     "zod": "3.24.2"
   },
