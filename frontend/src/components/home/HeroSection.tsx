@@ -16,12 +16,12 @@ export function HeroSection() {
             </p>
             <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 pt-4">
               <Link href="/dashboard">
-                <Button size="lg" className="w-full sm:w-auto rounded-lg bg-accent hover:bg-accent/90 text-white">
+                <Button size="lg" className="w-full sm:w-auto rounded-lg bg-accent hover:bg-accent/90 text-white cursor-pointer">
                   Get Started <ChevronRight className="ml-1 h-4 w-4" />
                 </Button>
               </Link>
               <Link href="#features">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto rounded-lg">
+                <Button variant="outline" size="lg" className="w-full sm:w-auto rounded-lg cursor-pointer">
                   Learn More
                 </Button>
               </Link>

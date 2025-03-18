@@ -36,7 +36,7 @@ export function ThemeToggle() {
       variant="ghost"
       size="icon"
       onClick={toggleTheme}
-      className="rounded-full w-10 h-10 transition-all duration-300"
+      className="rounded-full w-10 h-10 transition-all duration-300 cursor-pointer"
       aria-label="Toggle theme"
     >
       {darkMode ? (
