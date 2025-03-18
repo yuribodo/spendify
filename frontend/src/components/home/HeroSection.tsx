@@ -12,7 +12,7 @@ export function HeroSection() {
               Master Your Money, Unlock Your Future
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Take control of your finances with Spendify's intuitive tracking, intelligent insights, and beautiful visualizations.
+              Take control of your finances with Spendify&#39;s intuitive tracking, intelligent insights, and beautiful visualizations.
             </p>
             <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 pt-4">
               <Link href="/dashboard">
