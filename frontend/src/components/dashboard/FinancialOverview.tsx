@@ -4,7 +4,7 @@ import { DollarSign, TrendingUp, CreditCard, Percent } from 'lucide-react';
 
 export const FinancialOverview: React.FC = () => {
   return (
-    <div className="mb-8 animate-fade-in">
+    <div className="pt-32 pb-16 md:pt-40 md:pb-24 animate-fade-in">
       <h2 className="heading-lg mb-1">Financial Overview</h2>
       <p className="text-muted-foreground mb-6">Track your spending and manage your finances</p>
 
