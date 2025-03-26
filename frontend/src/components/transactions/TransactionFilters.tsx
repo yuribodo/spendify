@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -8,9 +7,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Calendar as CalendarIcon, X } from 'lucide-react';
-import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
+import { format } from 'date-fns';
+import { Calendar as CalendarIcon, X } from 'lucide-react';
+import { useState } from 'react';
 
 const TransactionFilters = () => {
   const [date, setDate] = useState<Date>();
@@ -19,14 +19,14 @@ const TransactionFilters = () => {
   const [selectedAmountRange, setSelectedAmountRange] = useState<string>('All');
 
   const categories = [
-    'All', 'Food', 'Transportation', 'Shopping', 
+    'All', 'Food', 'Transportation', 'Shopping',
     'Entertainment', 'Housing', 'Health', 'Income', 'Other'
   ];
 
   const statuses = ['All', 'Completed', 'Pending', 'Failed'];
 
   const amountRanges = [
-    'All', '< $50', '$50 - $100', '$100 - $500', 
+    'All', '< $50', '$50 - $100', '$100 - $500',
     '$500 - $1000', '> $1000'
   ];
 
@@ -39,7 +39,7 @@ const TransactionFilters = () => {
         : selectedCategories.includes(category)
           ? selectedCategories.filter(c => c !== category)
           : [...selectedCategories, category];
-      
+
       setSelectedCategories(newCategories.length ? newCategories : ['All']);
     }
   };
@@ -78,12 +78,12 @@ const TransactionFilters = () => {
               />
             </PopoverContent>
           </Popover>
-          
+
           {date && (
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               size="sm"
-              className="w-fit flex items-center" 
+              className="w-fit flex items-center"
               onClick={() => setDate(undefined)}
             >
               <X className="h-3 w-3 mr-1" />

@@ -27,6 +27,8 @@
   "homepage": "https://github.com/yuribodo/spendify#readme",
   "description": "",
   "dependencies": {
+    "@fastify/cookie": "11.0.2",
+    "@fastify/cors": "11.0.1",
     "@fastify/jwt": "9.0.4",
     "@fastify/swagger": "9.4.2",
     "@fastify/swagger-ui": "5.2.2",
@@ -38,7 +40,7 @@
     "fastify": "5.2.1",
     "prisma": "6.5.0",
     "tsc-alias": "1.8.11",
-    "tsup": "2.0.3",
+    "tsup": "8.4.0",
     "typescript": "5.7.3",
     "vitest": "3.0.7",
     "zod": "3.24.2"

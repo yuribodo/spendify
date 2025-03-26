@@ -1,115 +1,85 @@
-'use client'
+'use client';
 
-import React from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useAuth } from '@/lib/auth/context';
+import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Mail, Lock } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { toast } from "sonner";
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import * as z from 'zod';
 
-const formSchema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+const loginSchema = z.object({
+  email: z.string().email('Email inválido'),
+  password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
 });
 
-const Login = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+export default function LoginPage() {
+  const { login } = useAuth();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
+    mode: 'onBlur',
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log("Login values:", values);
-    toast("Login Attempted", {
-      description: "This feature will be connected to backend auth soon.",
-    });
+  const onSubmit = async (data: z.infer<typeof loginSchema>) => {
+    try {
+      await login(data.email, data.password);
+      toast.success('Login realizado com sucesso');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message || 'Falha no login');
+      } else {
+        toast.error('Falha no login');
+      }
+    }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4 bg-background">
-      <Card className="w-full max-w-md animate-fade-in">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Login to Spendify</CardTitle>
-          <CardDescription className="text-center">
-            Enter your email and password to access your account
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input 
-                          placeholder="name@example.com" 
-                          className="pl-10" 
-                          {...field} 
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input 
-                          type="password" 
-                          placeholder="••••••••" 
-                          className="pl-10" 
-                          {...field} 
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" className="w-full">
-                Sign In
-              </Button>
-            </form>
-          </Form>
-        </CardContent>
-        <CardFooter className="flex flex-col space-y-4">
-          <div className="text-sm text-center text-muted-foreground">
-            Don&apos;t have an account?{" "}
-            <Link href="/signup" className="text-primary hover:underline">
-              Sign up
-            </Link>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="Digite seu email"
+              {...register('email')}
+              className="mt-1 w-full"
+            />
+            {errors.email && <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>}
           </div>
-        </CardFooter>
-      </Card>
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              Senha
+            </label>
+            <Input
+              id="password"
+              type="password"
+              placeholder="Digite sua senha"
+              {...register('password')}
+              className="mt-1 w-full"
+            />
+            {errors.password && <p className="text-sm text-red-600 mt-1">{errors.password.message}</p>}
+          </div>
+          <Button type="submit" disabled={isSubmitting} className="w-full mt-4">
+            {isSubmitting ? 'Entrando...' : 'Entrar'}
+          </Button>
+        </form>
+        <p className="mt-6 text-center text-sm text-gray-600">
+          Ainda não tem uma conta?{' '}
+          <Link href="/signup" className="font-medium text-blue-600 hover:text-blue-500">
+            Cadastre-se
+          </Link>
+        </p>
+      </div>
     </div>
   );
-};
-
-export default Login;
+}

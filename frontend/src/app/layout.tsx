@@ -1,3 +1,5 @@
+import { Navbar } from "@/components/layout/Navbar";
+import { AuthProvider } from "@/lib/auth/provider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
@@ -23,8 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} font-sans antialiased`}>
-        {children}
-        <Toaster />
+        <AuthProvider>
+          <Navbar />
+          {children}
+          <Toaster />
+        </AuthProvider>
       </body>
     </html>
   );
