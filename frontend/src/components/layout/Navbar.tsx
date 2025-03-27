@@ -1,11 +1,11 @@
 'use client'
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui-custom/ThemeToggle";
-import { Menu, X } from "lucide-react";
-import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Menu, X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import icon from '../../../public/icon.svg';
 
 export function Navbar() {
@@ -58,7 +58,12 @@ export function Navbar() {
               Transactions
             </Button>
           </Link>
-          
+          <Link href="/profile">
+            <Button variant="ghost" className="rounded-lg cursor-pointer">
+              Profile
+            </Button>
+          </Link>
+
           <div className="ml-4 flex items-center space-x-2">
             <ThemeToggle />
             <Link href="/dashboard">
