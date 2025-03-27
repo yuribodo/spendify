@@ -58,6 +58,11 @@ export function Navbar() {
               Transactions
             </Button>
           </Link>
+          <Link href="/profile">
+            <Button variant="ghost" className="rounded-lg cursor-pointer">
+              Profile
+            </Button>
+          </Link>
 
           <div className="ml-4 flex items-center space-x-2">
             <ThemeToggle />
