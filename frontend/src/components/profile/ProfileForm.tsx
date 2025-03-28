@@ -1,11 +1,7 @@
 'use client'
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { User, Mail, Lock, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { CardContent } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -14,11 +10,22 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { useAuth } from '@/lib/auth/context';
+import {
+  getUserProfileAPI,
+  updateProfileAPI
+} from '@/lib/services/profile-service';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Lock, Mail, Save, User } from "lucide-react";
+import { useEffect, useState } from 'react';
+import { useForm } from "react-hook-form";
 import { toast } from 'sonner';
+import * as z from "zod";
+
 
 const profileFormSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+  username: z.string().min(2, { message: "Name must be at least 2 characters" }),
   email: z.string().email({ message: "Invalid email address" }),
   currentPassword: z.string().optional(),
   newPassword: z.string()
@@ -43,33 +50,101 @@ const profileFormSchema = z.object({
   path: ["confirmPassword"],
 });
 
-const defaultProfileValues = {
-  name: "John Doe",
-  email: "john.doe@example.com",
-  currentPassword: "",
-  newPassword: "",
-  confirmPassword: "",
-};
-
 export default function ProfileForm() {
+  const { user, isAuthenticated } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   const form = useForm<z.infer<typeof profileFormSchema>>({
     resolver: zodResolver(profileFormSchema),
-    defaultValues: defaultProfileValues,
+    defaultValues: {
+      username: '',
+      email: '',
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+    },
   });
 
+  useEffect(() => {
+    async function fetchUserProfile() {
+      console.log('isAuthenticated:', isAuthenticated);
+      console.log('user:', user);
+  
+      if (!isAuthenticated || !user?.id) {
+        console.log('Não autenticado ou sem ID de usuário');
+        return;
+      }
+  
+      try {
+        setIsLoading(true);
+        const userProfile = await getUserProfileAPI(user.id);
+        console.log('Perfil carregado:', userProfile);
+  
+        form.reset({
+          username: userProfile.username,
+          email: userProfile.email,
+        });
+      } catch (error) {
+        console.error('Erro completo:', error);
+        toast.error('Failed to load profile data');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  
+    fetchUserProfile();
+  }, [isAuthenticated, user?.id, form]);
+
+
   const onSubmit = async (values: z.infer<typeof profileFormSchema>) => {
+    if (!isAuthenticated || !user?.id) {
+      toast.error('User not authenticated');
+      return;
+    }
+
+    setIsSubmitting(true);
+
     try {
-      // TODO: Replace with actual API call
-      console.log("Profile update values:", values);
-      
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      
+      const payload = {
+        userId: user?.id,
+        username: values.username,
+        email: values.email,
+      };
+
+
+      const response = await updateProfileAPI(payload);
+
+      form.reset({
+        username: response.user.username,
+        email: response.user.email,
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: '',
+      });
+
       toast.success("Profile Updated: Your profile has been updated successfully.");
     } catch (error) {
-      toast.error("Failed to update profile. Please try again.");
+      const errorMessage = error instanceof Error
+        ? error.message
+        : 'Failed to update profile. Please try again.';
+
+      toast.error(errorMessage);
       console.error("Profile update error:", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
+
+  if (isLoading) {
+    return (
+      <CardContent>
+        <div className="text-center text-muted-foreground">
+          Loading profile...
+        </div>
+      </CardContent>
+    );
+  }
 
   return (
     <CardContent>
@@ -78,17 +153,17 @@ export default function ProfileForm() {
           <div className="space-y-4">
             <FormField
               control={form.control}
-              name="name"
+              name="username"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input 
-                        className="pl-10" 
+                      <Input
+                        className="pl-10"
                         placeholder="Enter your full name"
-                        {...field} 
+                        {...field}
                       />
                     </div>
                   </FormControl>
@@ -96,7 +171,7 @@ export default function ProfileForm() {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="email"
@@ -106,10 +181,10 @@ export default function ProfileForm() {
                   <FormControl>
                     <div className="relative">
                       <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input 
-                        className="pl-10" 
+                      <Input
+                        className="pl-10"
                         placeholder="Enter your email address"
-                        {...field} 
+                        {...field}
                       />
                     </div>
                   </FormControl>
@@ -118,13 +193,13 @@ export default function ProfileForm() {
               )}
             />
           </div>
-          
+
           <div className="space-y-4 pt-4 border-t">
             <h3 className="text-lg font-medium">Change Password</h3>
             <p className="text-sm text-muted-foreground">
               Update your password to enhance your account security
             </p>
-            
+
             <FormField
               control={form.control}
               name="currentPassword"
@@ -134,11 +209,11 @@ export default function ProfileForm() {
                   <FormControl>
                     <div className="relative">
                       <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input 
-                        type="password" 
-                        placeholder="Enter current password" 
+                      <Input
+                        type="password"
+                        placeholder="Enter current password"
                         className="pl-10"
-                        {...field} 
+                        {...field}
                       />
                     </div>
                   </FormControl>
@@ -146,7 +221,7 @@ export default function ProfileForm() {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="newPassword"
@@ -156,11 +231,11 @@ export default function ProfileForm() {
                   <FormControl>
                     <div className="relative">
                       <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input 
-                        type="password" 
-                        placeholder="Enter new password" 
+                      <Input
+                        type="password"
+                        placeholder="Enter new password"
                         className="pl-10"
-                        {...field} 
+                        {...field}
                       />
                     </div>
                   </FormControl>
@@ -168,7 +243,7 @@ export default function ProfileForm() {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="confirmPassword"
@@ -178,11 +253,11 @@ export default function ProfileForm() {
                   <FormControl>
                     <div className="relative">
                       <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input 
-                        type="password" 
-                        placeholder="Confirm new password" 
+                      <Input
+                        type="password"
+                        placeholder="Confirm new password"
                         className="pl-10"
-                        {...field} 
+                        {...field}
                       />
                     </div>
                   </FormControl>
@@ -191,15 +266,15 @@ export default function ProfileForm() {
               )}
             />
           </div>
-          
-          <Button 
-            type="submit" 
-            className="w-full sm:w-auto" 
+
+          <Button
+            type="submit"
+            className="w-full sm:w-auto"
             size="lg"
-            disabled={form.formState.isSubmitting}
+            disabled={isSubmitting}
           >
             <Save className="mr-2 h-4 w-4" />
-            {form.formState.isSubmitting ? 'Saving...' : 'Save Changes'}
+            {isSubmitting ? 'Saving...' : 'Save Changes'}
           </Button>
         </form>
       </Form>
