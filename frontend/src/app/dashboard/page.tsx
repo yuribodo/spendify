@@ -1,6 +1,5 @@
-import React from 'react';
-import { FinancialOverview } from '@/components/dashboard/FinancialOverview';
 import { CashFlowChart } from '@/components/dashboard/CashFlowChart';
+import { FinancialOverview } from '@/components/dashboard/FinancialOverview';
 import { RecentTransactions } from '@/components/dashboard/RecentTransactions';
 
 export default function SpendifyDashboard() {

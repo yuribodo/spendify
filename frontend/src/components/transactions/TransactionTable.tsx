@@ -1,23 +1,23 @@
 'use client'
 
-import { useState, useCallback, memo } from 'react';
-import { formatDistanceToNow } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
-import { 
-  MoreHorizontal, 
-  FileEdit, 
-  Trash2, 
-  Info, 
-  ArrowUpRight, 
-  ArrowDownLeft 
-} from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from '@/components/ui/button';
+import { formatDistanceToNow } from 'date-fns';
+import {
+  ArrowDownLeft,
+  ArrowUpRight,
+  FileEdit,
+  Info,
+  MoreHorizontal,
+  Trash2
+} from 'lucide-react';
+import { memo, useCallback, useState } from 'react';
 
 interface Transaction {
   id: number;
@@ -124,113 +124,113 @@ const TransactionRow = memo(({ transaction }: { transaction: Transaction }) => {
 TransactionRow.displayName = 'TransactionRow';
 
 const TransactionTable = () => {
-    //TODO: this should come from an API
-    const transactions: Transaction[] = [
-      {
-        id: 1,
-        title: 'Grocery Shopping',
-        amount: -120.50,
-        date: '2023-09-15',
-        category: 'Food',
-        icon: '🛒',
-        status: 'completed',
-        description: 'Weekly grocery shopping at Whole Foods'
-      },
-      {
-        id: 2,
-        title: 'Salary',
-        amount: 2500.00,
-        date: '2023-09-01',
-        category: 'Income',
-        icon: '💰',
-        status: 'completed',
-        description: 'Monthly salary payment'
-      },
-      {
-        id: 3,
-        title: 'Electric Bill',
-        amount: -75.20,
-        date: '2023-09-10',
-        category: 'Utilities',
-        icon: '💡',
-        status: 'completed',
-        description: 'Electricity bill for September'
-      },
-      {
-        id: 4,
-        title: 'Netflix Subscription',
-        amount: -15.99,
-        date: '2023-09-05',
-        category: 'Entertainment',
-        icon: '📺',
-        status: 'completed',
-        description: 'Monthly Netflix subscription'
-      },
-      {
-        id: 5,
-        title: 'Dinner at Restaurant',
-        amount: -45.75,
-        date: '2023-09-14',
-        category: 'Food',
-        icon: '🍽️',
-        status: 'pending',
-        description: 'Dinner with friends at an Italian restaurant'
-      },
-      {
-        id: 6,
-        title: 'Gym Membership',
-        amount: -50.00,
-        date: '2023-09-03',
-        category: 'Health',
-        icon: '🏋️',
-        status: 'completed',
-        description: 'Monthly gym membership fee'
-      },
-      {
-        id: 7,
-        title: 'Freelance Payment',
-        amount: 600.00,
-        date: '2023-09-20',
-        category: 'Income',
-        icon: '💻',
-        status: 'completed',
-        description: 'Payment for freelance web development work'
-      },
-      {
-        id: 8,
-        title: 'Amazon Purchase',
-        amount: -89.99,
-        date: '2023-09-12',
-        category: 'Shopping',
-        icon: '📦',
-        status: 'completed',
-        description: 'Bought new headphones from Amazon'
-      },
-      {
-        id: 9,
-        title: 'Fuel',
-        amount: -40.00,
-        date: '2023-09-08',
-        category: 'Transport',
-        icon: '⛽',
-        status: 'completed',
-        description: 'Filled up car with gas'
-      },
-      {
-        id: 10,
-        title: 'Concert Ticket',
-        amount: -75.00,
-        date: '2023-09-22',
-        category: 'Entertainment',
-        icon: '🎶',
-        status: 'pending',
-        description: 'Ticket for a live concert event'
-      }
-    ];
+  //TODO: this should come from an API
+  const transactions: Transaction[] = [
+    {
+      id: 1,
+      title: 'Grocery Shopping',
+      amount: -120.50,
+      date: '2023-09-15',
+      category: 'Food',
+      icon: '🛒',
+      status: 'completed',
+      description: 'Weekly grocery shopping at Whole Foods'
+    },
+    {
+      id: 2,
+      title: 'Salary',
+      amount: 2500.00,
+      date: '2023-09-01',
+      category: 'Income',
+      icon: '💰',
+      status: 'completed',
+      description: 'Monthly salary payment'
+    },
+    {
+      id: 3,
+      title: 'Electric Bill',
+      amount: -75.20,
+      date: '2023-09-10',
+      category: 'Utilities',
+      icon: '💡',
+      status: 'completed',
+      description: 'Electricity bill for September'
+    },
+    {
+      id: 4,
+      title: 'Netflix Subscription',
+      amount: -15.99,
+      date: '2023-09-05',
+      category: 'Entertainment',
+      icon: '📺',
+      status: 'completed',
+      description: 'Monthly Netflix subscription'
+    },
+    {
+      id: 5,
+      title: 'Dinner at Restaurant',
+      amount: -45.75,
+      date: '2023-09-14',
+      category: 'Food',
+      icon: '🍽️',
+      status: 'pending',
+      description: 'Dinner with friends at an Italian restaurant'
+    },
+    {
+      id: 6,
+      title: 'Gym Membership',
+      amount: -50.00,
+      date: '2023-09-03',
+      category: 'Health',
+      icon: '🏋️',
+      status: 'completed',
+      description: 'Monthly gym membership fee'
+    },
+    {
+      id: 7,
+      title: 'Freelance Payment',
+      amount: 600.00,
+      date: '2023-09-20',
+      category: 'Income',
+      icon: '💻',
+      status: 'completed',
+      description: 'Payment for freelance web development work'
+    },
+    {
+      id: 8,
+      title: 'Amazon Purchase',
+      amount: -89.99,
+      date: '2023-09-12',
+      category: 'Shopping',
+      icon: '📦',
+      status: 'completed',
+      description: 'Bought new headphones from Amazon'
+    },
+    {
+      id: 9,
+      title: 'Fuel',
+      amount: -40.00,
+      date: '2023-09-08',
+      category: 'Transport',
+      icon: '⛽',
+      status: 'completed',
+      description: 'Filled up car with gas'
+    },
+    {
+      id: 10,
+      title: 'Concert Ticket',
+      amount: -75.00,
+      date: '2023-09-22',
+      category: 'Entertainment',
+      icon: '🎶',
+      status: 'pending',
+      description: 'Ticket for a live concert event'
+    }
+  ];
 
   const [page, setPage] = useState(1);
   const itemsPerPage = 10;
-  const totalItems = 25; 
+  const totalItems = 25;
 
   const handleNextPage = useCallback(() => {
     if ((page * itemsPerPage) < totalItems) {
@@ -270,16 +270,16 @@ const TransactionTable = () => {
           Showing {Math.min((page - 1) * itemsPerPage + 1, totalItems)} to {Math.min(page * itemsPerPage, totalItems)} of {totalItems} transactions
         </div>
         <div className="flex space-x-2">
-          <Button 
-            variant="outline" 
-            size="sm" 
+          <Button
+            variant="outline"
+            size="sm"
             disabled={page === 1}
             onClick={handlePrevPage}
           >
             Previous
           </Button>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             size="sm"
             disabled={page * itemsPerPage >= totalItems}
             onClick={handleNextPage}
