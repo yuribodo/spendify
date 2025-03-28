@@ -1,10 +1,10 @@
+import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import React from 'react';
-import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import type { MetricCardProps } from '../../types';
 
 export const MetricCard: React.FC<MetricCardProps> = ({ title, value, percentChange, icon }) => {
   const isPositive = percentChange >= 0;
-  
+
   return (
     <div className="bg-card text-card-foreground p-6 rounded-lg shadow-subtle border border-border card-hover">
       <div className="flex justify-between items-start mb-4">

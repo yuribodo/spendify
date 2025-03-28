@@ -1,6 +1,6 @@
-import axiosInstance from '../axiosInstance';
+import axiosInstance from '@/lib/axiosInstance';
 import { jwtDecode } from 'jwt-decode';
-import type { AuthTokens } from './types';
+import axios from 'axios';
 
 interface LoginCredentials {
   email: string;
@@ -13,30 +13,51 @@ interface SignupCredentials {
   password: string;
 }
 
-interface AuthResponse {
-  tokens: AuthTokens;
-  user: Record<string, unknown>; // ou um tipo mais específico se souber a estrutura do `user`
+interface ApiLoginResponse {
+  token: string;
 }
 
 class AuthService {
   async login(credentials: LoginCredentials): Promise<Record<string, unknown>> {
     try {
-      const { data } = await axiosInstance.post<AuthResponse>('/auth/session', credentials, {
+      const { data } = await axiosInstance.post<ApiLoginResponse>('/auth/session', credentials, {
         withCredentials: true,
       });
-      this.setTokens(data.tokens);
-      return data.user;
+      
+      const decodedToken = jwtDecode<{
+        sub: string;
+        role: string;
+      }>(data.token);
+
+      this.setTokens({ accessToken: data.token });
+
+      return {
+        id: decodedToken.sub,
+        role: decodedToken.role
+      };
     } catch (error) {
+      console.error('Login error:', error);
       throw new Error(this.extractErrorMessage(error));
     }
   }
 
   async signup(credentials: SignupCredentials): Promise<Record<string, unknown>> {
     try {
-      const { data } = await axiosInstance.post<AuthResponse>('/users', credentials);
-      this.setTokens(data.tokens);
-      return data.user;
+      const { data } = await axiosInstance.post<ApiLoginResponse>('/users', credentials);
+      
+      const decodedToken = jwtDecode<{
+        sub: string;
+        role: string;
+      }>(data.token);
+
+      this.setTokens({ accessToken: data.token });
+
+      return {
+        id: decodedToken.sub,
+        role: decodedToken.role
+      };
     } catch (error) {
+      console.error('Signup error:', error);
       throw new Error(this.extractErrorMessage(error));
     }
   }
@@ -45,7 +66,7 @@ class AuthService {
     this.removeTokens();
   }
 
-  private setTokens(tokens: AuthTokens): void {
+  private setTokens(tokens: { accessToken: string }): void {
     if (typeof window !== 'undefined') {
       localStorage.setItem('user', JSON.stringify(tokens));
     }
@@ -68,9 +89,11 @@ class AuthService {
 
   async refreshAccessToken(): Promise<string | null> {
     try {
-      const { data } = await axiosInstance.post<{ tokens: AuthTokens }>('/auth/refresh');
-      this.setTokens(data.tokens);
-      return data.tokens.accessToken;
+      const { data } = await axiosInstance.post<{ token: string }>('/auth/refresh');
+      
+      this.setTokens({ accessToken: data.token });
+      
+      return data.token;
     } catch {
       this.logout();
       return null;
@@ -78,15 +101,23 @@ class AuthService {
   }
 
   private extractErrorMessage(error: unknown): string {
+    if (axios.isAxiosError(error)) {
+      if (error.response) {
+        return error.response.data?.message 
+          || error.response.data?.error 
+          || `Error ${error.response.status}: ${error.response.statusText}`;
+      } else if (error.request) {
+        return 'No response received from server';
+      }
+    }
+
     if (error instanceof Error) {
       return error.message;
     }
-    if (typeof error === 'object' && error !== null && 'response' in error) {
-      const axiosError = error as { response?: { data?: { message?: string } } };
-      return axiosError.response?.data?.message || 'An error occurred';
-    }
-    return 'An unknown error occurred';
+
+    return 'An unexpected error occurred';
   }
 }
 
-export default new AuthService();
+const authService = new AuthService();
+export default authService;

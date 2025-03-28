@@ -1,18 +1,18 @@
 'use client'
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { 
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { AnimatePresence, motion } from 'framer-motion';
+import { X } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface AddTransactionModalProps {
   isOpen: boolean;
@@ -28,7 +28,7 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({ isOpen, onClo
     onClose();
   };
 
-  const categories = transactionType === 'expense' 
+  const categories = transactionType === 'expense'
     ? ['Food', 'Transportation', 'Entertainment', 'Shopping', 'Health', 'Housing', 'Other']
     : ['Salary', 'Investment', 'Gift', 'Refund', 'Other'];
 
