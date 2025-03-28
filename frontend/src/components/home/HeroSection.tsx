@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ChevronRight, LineChart, CreditCard, BarChart4 } from "lucide-react";
+import { BarChart4, ChevronRight, CreditCard, LineChart } from "lucide-react";
 import Link from "next/link";
 
 export function HeroSection() {
@@ -27,12 +27,12 @@ export function HeroSection() {
               </Link>
             </div>
           </div>
-          
+
           <div className="relative">
             <div className="relative w-full h-[380px] md:h-[450px] rounded-2xl overflow-hidden animate-fade-in">
               <div className="absolute -top-5 -right-5 w-64 h-64 md:w-72 md:h-72 bg-accent/10 rounded-full filter blur-3xl animate-pulse-gentle"></div>
               <div className="absolute -bottom-10 -left-10 w-72 h-72 md:w-80 md:h-80 bg-primary/10 rounded-full filter blur-3xl animate-pulse-gentle delay-700"></div>
-              
+
               <div className="absolute left-[10%] top-10 glass-card rounded-xl p-4 shadow-card animate-float">
                 <div className="flex items-center space-x-3">
                   <div className="p-2 bg-accent/10 rounded-lg">
@@ -44,7 +44,7 @@ export function HeroSection() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="absolute right-[5%] bottom-20 glass-card rounded-xl p-4 shadow-card animate-float delay-500">
                 <div className="flex items-center space-x-3">
                   <div className="p-2 bg-primary/10 rounded-lg">
@@ -57,7 +57,7 @@ export function HeroSection() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="absolute left-[20%] bottom-10 glass-card rounded-xl p-4 shadow-card animate-float delay-1000">
                 <div className="flex items-center space-x-3">
                   <div className="p-2 bg-teal-400/10 rounded-lg">
@@ -72,7 +72,7 @@ export function HeroSection() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/50 to-background/90"></div>
             </div>
           </div>

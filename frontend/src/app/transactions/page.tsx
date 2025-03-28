@@ -1,8 +1,8 @@
-import React, { Suspense } from 'react';
-import TransactionsHeader from '@/components/transactions/TransactionHeader';
 import TransactionsContent from '@/components/transactions/TransactionContent';
+import TransactionsHeader from '@/components/transactions/TransactionHeader';
 import TransactionsSearchWrapper from '@/components/transactions/TransactionsSearchWrapper';
 import LoadingSpinner from '@/components/ui-custom/LoadingSpinner';
+import { Suspense } from 'react';
 
 export default function Transactions() {
   return (

@@ -1,7 +1,6 @@
-import { Navbar } from "@/components/layout/Navbar";
-import { HeroSection } from "@/components/home/HeroSection";
 import { FeaturesSection } from "@/components/home/FeaturesSection";
-
+import { HeroSection } from "@/components/home/HeroSection";
+import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
 const Index = () => {

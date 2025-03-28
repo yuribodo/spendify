@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Filter, Download, Plus } from 'lucide-react';
+import { Download, Filter, Plus } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import { useState } from 'react';
 
 
 const AddTransactionModal = dynamic(
@@ -24,9 +24,9 @@ const TransactionsHeader = () => {
             <p className="text-muted-foreground">View and manage all your financial transactions</p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <Button 
-              onClick={() => setIsFiltersVisible(!isFiltersVisible)} 
-              variant="outline" 
+            <Button
+              onClick={() => setIsFiltersVisible(!isFiltersVisible)}
+              variant="outline"
               className="flex items-center gap-2"
             >
               <Filter size={16} />
@@ -36,8 +36,8 @@ const TransactionsHeader = () => {
               <Download size={16} />
               <span>Export</span>
             </Button>
-            <Button 
-              onClick={() => setIsAddModalOpen(true)} 
+            <Button
+              onClick={() => setIsAddModalOpen(true)}
               className="flex items-center gap-2 btn-shine"
             >
               <Plus size={16} />
@@ -46,11 +46,11 @@ const TransactionsHeader = () => {
           </div>
         </div>
       </div>
-      
+
       {isAddModalOpen && (
-        <AddTransactionModal 
-          isOpen={isAddModalOpen} 
-          onClose={() => setIsAddModalOpen(false)} 
+        <AddTransactionModal
+          isOpen={isAddModalOpen}
+          onClose={() => setIsAddModalOpen(false)}
         />
       )}
     </>

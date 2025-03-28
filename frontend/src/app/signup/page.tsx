@@ -1,8 +1,8 @@
 'use client';
 
+import { useAuth } from '@/lib/auth/context';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useAuth } from '@/lib/auth/context';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -42,7 +42,7 @@ export default function SignupPage() {
     try {
       const { confirmPassword, ...signupData } = data;
       void confirmPassword;
-      
+
       await signup(signupData.username, signupData.email, signupData.password);
       toast.success('Account created successfully');
     } catch (error: unknown) {

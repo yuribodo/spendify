@@ -1,11 +1,11 @@
-import { CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function ProfileCard() {
   return (
     <CardHeader className="flex flex-row items-center gap-4">
       <Avatar className="h-16 w-16">
-        <AvatarImage src="/avatars/default-avatar.png" alt="Profile" />
+        <AvatarImage alt="Profile" />
         <AvatarFallback>JD</AvatarFallback>
       </Avatar>
       <div>

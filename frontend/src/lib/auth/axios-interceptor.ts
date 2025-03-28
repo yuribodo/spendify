@@ -1,5 +1,5 @@
 import axios from 'axios';
-import AuthService from './service';
+import authService from './service';
 
 const setupInterceptors = () => {
   axios.interceptors.request.use(
@@ -27,14 +27,14 @@ const setupInterceptors = () => {
         originalRequest._retry = true;
 
         try {
-          const newToken = await AuthService.refreshAccessToken();
+          const newToken = await authService.refreshAccessToken();
           
           if (newToken) {
             originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
             return axios(originalRequest);
           }
         } catch {
-          AuthService.logout();
+          authService.logout();
           window.location.href = '/login';
         }
       }
