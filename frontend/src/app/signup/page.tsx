@@ -11,15 +11,15 @@ import * as z from 'zod';
 
 const signupSchema = z.object({
   username: z.string()
-    .min(3, 'Username must be at least 3 characters')
-    .max(20, 'Username must be no more than 20 characters')
+    .min(3, 'Username must be at least 3 characters long')
+    .max(20, 'Username must be at most 20 characters long')
     .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'),
-  email: z.string().email('Invalid email address'),
+  email: z.string().email('Invalid email'),
   password: z.string()
-    .min(8, 'Password must be at least 8 characters')
+    .min(8, 'Password must be at least 8 characters long')
     .regex(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      'Password must include uppercase, lowercase, number, and special character'
+      'Password must include uppercase, lowercase letters, numbers, and special characters'
     ),
   confirmPassword: z.string()
 }).refine((data) => data.password === data.confirmPassword, {
@@ -44,7 +44,7 @@ export default function SignupPage() {
       void confirmPassword;
 
       await signup(signupData.username, signupData.email, signupData.password);
-      toast.success('Account created successfully');
+      toast.success('Account successfully created');
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast.error(error.message || 'Signup failed');
@@ -55,84 +55,111 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
-      <h2 className="text-2xl font-bold mb-6 text-center">Create Your Account</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <Input
-            {...register('username')}
-            placeholder="Username"
+    <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground">
+
+      <div className="max-w-md w-full p-8 bg-card text-card-foreground rounded-xl shadow-lg border">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl font-bold">Create Account</h2>
+          <p className="text-muted-foreground mt-2">Sign up to get started</p>
+        </div>
+        
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <label htmlFor="username" className="block text-sm font-medium mb-1">
+              Username
+            </label>
+            <Input
+              id="username"
+              {...register('username')}
+              placeholder="Enter your username"
+              disabled={isSubmitting}
+              className="w-full"
+            />
+            {errors.username && (
+              <p className="text-destructive text-sm mt-1">
+                {errors.username.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium mb-1">
+              Email
+            </label>
+            <Input
+              id="email"
+              {...register('email')}
+              placeholder="Enter your email"
+              type="email"
+              disabled={isSubmitting}
+              className="w-full"
+            />
+            {errors.email && (
+              <p className="text-destructive text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium mb-1">
+              Password
+            </label>
+            <Input
+              id="password"
+              {...register('password')}
+              placeholder="Enter your password"
+              type="password"
+              disabled={isSubmitting}
+              className="w-full"
+            />
+            {errors.password && (
+              <p className="text-destructive text-sm mt-1">
+                {errors.password.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="confirmPassword" className="block text-sm font-medium mb-1">
+              Confirm Password
+            </label>
+            <Input
+              id="confirmPassword"
+              {...register('confirmPassword')}
+              placeholder="Confirm your password"
+              type="password"
+              disabled={isSubmitting}
+              className="w-full"
+            />
+            {errors.confirmPassword && (
+              <p className="text-destructive text-sm mt-1">
+                {errors.confirmPassword.message}
+              </p>
+            )}
+          </div>
+
+          <Button
+            type="submit"
             disabled={isSubmitting}
-          />
-          {errors.username && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.username.message}
+            className="w-full mt-6 bg-accent hover:bg-accent/90 text-accent-foreground border cursor-pointer"
+          >
+            {isSubmitting ? 'Creating Account...' : 'Sign Up'}
+          </Button>
+
+          <div className="text-center mt-4">
+            <p className="text-sm text-muted-foreground">
+              Already have an account?{' '}
+              <Link
+                href="/login"
+                className="text-accent hover:underline font-medium"
+              >
+                Log in
+              </Link>
             </p>
-          )}
-        </div>
-
-        <div>
-          <Input
-            {...register('email')}
-            placeholder="Email"
-            type="email"
-            disabled={isSubmitting}
-          />
-          {errors.email && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.email.message}
-            </p>
-          )}
-        </div>
-
-        <div>
-          <Input
-            {...register('password')}
-            placeholder="Password"
-            type="password"
-            disabled={isSubmitting}
-          />
-          {errors.password && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.password.message}
-            </p>
-          )}
-        </div>
-
-        <div>
-          <Input
-            {...register('confirmPassword')}
-            placeholder="Confirm Password"
-            type="password"
-            disabled={isSubmitting}
-          />
-          {errors.confirmPassword && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.confirmPassword.message}
-            </p>
-          )}
-        </div>
-
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full"
-        >
-          {isSubmitting ? 'Creating Account...' : 'Sign Up'}
-        </Button>
-
-        <div className="text-center mt-4">
-          <p className="text-sm text-gray-600">
-            Already have an account?{' '}
-            <Link
-              href="/login"
-              className="text-blue-600 hover:underline"
-            >
-              Log in
-            </Link>
-          </p>
-        </div>
-      </form>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

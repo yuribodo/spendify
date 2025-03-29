@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const initializeAuth = async () => {
       try {
         const storedTokensString = localStorage.getItem('user');
+        
         if (storedTokensString) {
           const tokens: AuthTokens = JSON.parse(storedTokensString);
 
@@ -38,6 +39,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       } catch (error) {
         console.error('Erro ao inicializar autenticação:', error);
         localStorage.removeItem('user');
+        document.cookie = 'accessToken=; path=/; max-age=0';
         setUser(null);
       } finally {
         setIsLoading(false);
