@@ -55,84 +55,88 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
-      <h2 className="text-2xl font-bold mb-6 text-center">Create Your Account</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <Input
-            {...register('username')}
-            placeholder="Username"
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-slate-900">
+      <div className="max-w-md w-full p-6 bg-white dark:bg-slate-800 rounded-xl shadow-md">
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-gray-100">
+          Create Your Account
+        </h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <Input
+              {...register('username')}
+              placeholder="Username"
+              disabled={isSubmitting}
+            />
+            {errors.username && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.username.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <Input
+              {...register('email')}
+              placeholder="Email"
+              type="email"
+              disabled={isSubmitting}
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <Input
+              {...register('password')}
+              placeholder="Password"
+              type="password"
+              disabled={isSubmitting}
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <Input
+              {...register('confirmPassword')}
+              placeholder="Confirm Password"
+              type="password"
+              disabled={isSubmitting}
+            />
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.confirmPassword.message}
+              </p>
+            )}
+          </div>
+
+          <Button
+            type="submit"
             disabled={isSubmitting}
-          />
-          {errors.username && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.username.message}
+            className="w-full"
+          >
+            {isSubmitting ? 'Creating Account...' : 'Sign Up'}
+          </Button>
+
+          <div className="text-center mt-4">
+            <p className="text-sm text-gray-600 dark:text-gray-300">
+              Already have an account?{' '}
+              <Link
+                href="/login"
+                className="text-blue-600 hover:underline"
+              >
+                Log in
+              </Link>
             </p>
-          )}
-        </div>
-
-        <div>
-          <Input
-            {...register('email')}
-            placeholder="Email"
-            type="email"
-            disabled={isSubmitting}
-          />
-          {errors.email && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.email.message}
-            </p>
-          )}
-        </div>
-
-        <div>
-          <Input
-            {...register('password')}
-            placeholder="Password"
-            type="password"
-            disabled={isSubmitting}
-          />
-          {errors.password && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.password.message}
-            </p>
-          )}
-        </div>
-
-        <div>
-          <Input
-            {...register('confirmPassword')}
-            placeholder="Confirm Password"
-            type="password"
-            disabled={isSubmitting}
-          />
-          {errors.confirmPassword && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.confirmPassword.message}
-            </p>
-          )}
-        </div>
-
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full"
-        >
-          {isSubmitting ? 'Creating Account...' : 'Sign Up'}
-        </Button>
-
-        <div className="text-center mt-4">
-          <p className="text-sm text-gray-600">
-            Already have an account?{' '}
-            <Link
-              href="/login"
-              className="text-blue-600 hover:underline"
-            >
-              Log in
-            </Link>
-          </p>
-        </div>
-      </form>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
