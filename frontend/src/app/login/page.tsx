@@ -39,14 +39,17 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-slate-900">
-      <div className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-gray-100">
-          Login
-        </h2>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground">
+      
+      <div className="max-w-md w-full p-8 bg-card text-card-foreground rounded-xl shadow-lg border">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl font-bold">Login</h2>
+          <p className="text-muted-foreground mt-2">Entre para acessar sua conta</p>
+        </div>
+        
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="email" className="block text-sm font-medium mb-1">
               Email
             </label>
             <Input
@@ -54,33 +57,47 @@ export default function LoginPage() {
               type="email"
               placeholder="Digite seu email"
               {...register('email')}
-              className="mt-1 w-full"
+              className="w-full"
             />
-            {errors.email && <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>}
+            {errors.email && <p className="text-destructive text-sm mt-1">{errors.email.message}</p>}
           </div>
+          
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Senha
-            </label>
+            <div className="flex justify-between items-center mb-1">
+              <label htmlFor="password" className="block text-sm font-medium">
+                Senha
+              </label>
+              <Link href="/forgot-password" className="text-sm text-accent hover:underline">
+                Esqueceu a senha?
+              </Link>
+            </div>
             <Input
               id="password"
               type="password"
               placeholder="Digite sua senha"
               {...register('password')}
-              className="mt-1 w-full"
+              className="w-full"
             />
-            {errors.password && <p className="text-sm text-red-600 mt-1">{errors.password.message}</p>}
+            {errors.password && <p className="text-destructive text-sm mt-1">{errors.password.message}</p>}
           </div>
-          <Button type="submit" disabled={isSubmitting} className="w-full mt-4">
+          
+          <Button 
+            type="submit" 
+            disabled={isSubmitting} 
+            className="w-full mt-6 bg-accent hover:bg-accent/90 text-accent-foreground border cursor-pointer"
+          >
             {isSubmitting ? 'Entrando...' : 'Entrar'}
           </Button>
         </form>
-        <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-300">
-          Ainda não tem uma conta?{' '}
-          <Link href="/signup" className="font-medium text-blue-600 hover:text-blue-500">
-            Cadastre-se
-          </Link>
-        </p>
+        
+        <div className="mt-6 text-center">
+          <p className="text-muted-foreground text-sm">
+            Ainda não tem uma conta?{' '}
+            <Link href="/signup" className="text-accent hover:underline font-medium">
+              Cadastre-se
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
