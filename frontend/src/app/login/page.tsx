@@ -10,8 +10,8 @@ import { toast } from 'sonner';
 import * as z from 'zod';
 
 const loginSchema = z.object({
-  email: z.string().email('Email inválido'),
-  password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
+  email: z.string().email('Invalid email'),
+  password: z.string().min(6, 'Password must be at least 6 characters long'),
 });
 
 export default function LoginPage() {
@@ -28,12 +28,12 @@ export default function LoginPage() {
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     try {
       await login(data.email, data.password);
-      toast.success('Login realizado com sucesso');
+      toast.success('Login successful');
     } catch (error: unknown) {
       if (error instanceof Error) {
-        toast.error(error.message || 'Falha no login');
+        toast.error(error.message || 'Login failed');
       } else {
-        toast.error('Falha no login');
+        toast.error('Login failed');
       }
     }
   };
@@ -44,7 +44,7 @@ export default function LoginPage() {
       <div className="max-w-md w-full p-8 bg-card text-card-foreground rounded-xl shadow-lg border">
         <div className="mb-6 text-center">
           <h2 className="text-2xl font-bold">Login</h2>
-          <p className="text-muted-foreground mt-2">Entre para acessar sua conta</p>
+          <p className="text-muted-foreground mt-2">Sign in to access your account</p>
         </div>
         
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -55,7 +55,7 @@ export default function LoginPage() {
             <Input
               id="email"
               type="email"
-              placeholder="Digite seu email"
+              placeholder="Enter your email"
               {...register('email')}
               className="w-full"
             />
@@ -65,16 +65,16 @@ export default function LoginPage() {
           <div>
             <div className="flex justify-between items-center mb-1">
               <label htmlFor="password" className="block text-sm font-medium">
-                Senha
+                Password
               </label>
               <Link href="/forgot-password" className="text-sm text-accent hover:underline">
-                Esqueceu a senha?
+                Forgot password?
               </Link>
             </div>
             <Input
               id="password"
               type="password"
-              placeholder="Digite sua senha"
+              placeholder="Enter your password"
               {...register('password')}
               className="w-full"
             />
@@ -86,15 +86,15 @@ export default function LoginPage() {
             disabled={isSubmitting} 
             className="w-full mt-6 bg-accent hover:bg-accent/90 text-accent-foreground border cursor-pointer"
           >
-            {isSubmitting ? 'Entrando...' : 'Entrar'}
+            {isSubmitting ? 'Logging in...' : 'Login'}
           </Button>
         </form>
         
         <div className="mt-6 text-center">
           <p className="text-muted-foreground text-sm">
-            Ainda não tem uma conta?{' '}
+            Don&apos;t have an account yet?{' '}
             <Link href="/signup" className="text-accent hover:underline font-medium">
-              Cadastre-se
+              Sign up
             </Link>
           </p>
         </div>
