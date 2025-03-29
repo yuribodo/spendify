@@ -4,10 +4,13 @@ import authService from './service';
 const setupInterceptors = () => {
   axios.interceptors.request.use(
     async (config) => {
-      const token = localStorage.getItem('accessToken');
+      const storedUser = localStorage.getItem('user');
       
-      if (token) {
-        config.headers['Authorization'] = `Bearer ${token}`;
+      if (storedUser) {
+        const { accessToken } = JSON.parse(storedUser);
+        if (accessToken) {
+          config.headers['Authorization'] = `Bearer ${accessToken}`;
+        }
       }
       
       return config;

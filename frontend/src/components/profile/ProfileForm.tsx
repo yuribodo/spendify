@@ -94,7 +94,7 @@ export default function ProfileForm() {
     }
   
     fetchUserProfile();
-  }, [isAuthenticated, user?.id, form]);
+  }, [isAuthenticated, user, form]);
 
 
   const onSubmit = async (values: z.infer<typeof profileFormSchema>) => {

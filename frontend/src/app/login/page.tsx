@@ -10,8 +10,8 @@ import { toast } from 'sonner';
 import * as z from 'zod';
 
 const loginSchema = z.object({
-  email: z.string().email('Email inválido'),
-  password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
+  email: z.string().email('Invalid email'),
+  password: z.string().min(6, 'Password must be at least 6 characters long'),
 });
 
 export default function LoginPage() {
@@ -28,57 +28,76 @@ export default function LoginPage() {
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     try {
       await login(data.email, data.password);
-      toast.success('Login realizado com sucesso');
+      toast.success('Login successful');
     } catch (error: unknown) {
       if (error instanceof Error) {
-        toast.error(error.message || 'Falha no login');
+        toast.error(error.message || 'Login failed');
       } else {
-        toast.error('Falha no login');
+        toast.error('Login failed');
       }
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground">
+      
+      <div className="max-w-md w-full p-8 bg-card text-card-foreground rounded-xl shadow-lg border">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl font-bold">Login</h2>
+          <p className="text-muted-foreground mt-2">Sign in to access your account</p>
+        </div>
+        
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="email" className="block text-sm font-medium mb-1">
               Email
             </label>
             <Input
               id="email"
               type="email"
-              placeholder="Digite seu email"
+              placeholder="Enter your email"
               {...register('email')}
-              className="mt-1 w-full"
+              className="w-full"
             />
-            {errors.email && <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>}
+            {errors.email && <p className="text-destructive text-sm mt-1">{errors.email.message}</p>}
           </div>
+          
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-              Senha
-            </label>
+            <div className="flex justify-between items-center mb-1">
+              <label htmlFor="password" className="block text-sm font-medium">
+                Password
+              </label>
+              <Link href="/forgot-password" className="text-sm text-accent hover:underline">
+                Forgot password?
+              </Link>
+            </div>
             <Input
               id="password"
               type="password"
-              placeholder="Digite sua senha"
+              placeholder="Enter your password"
               {...register('password')}
-              className="mt-1 w-full"
+              className="w-full"
             />
-            {errors.password && <p className="text-sm text-red-600 mt-1">{errors.password.message}</p>}
+            {errors.password && <p className="text-destructive text-sm mt-1">{errors.password.message}</p>}
           </div>
-          <Button type="submit" disabled={isSubmitting} className="w-full mt-4">
-            {isSubmitting ? 'Entrando...' : 'Entrar'}
+          
+          <Button 
+            type="submit" 
+            disabled={isSubmitting} 
+            className="w-full mt-6 bg-accent hover:bg-accent/90 text-accent-foreground border cursor-pointer"
+          >
+            {isSubmitting ? 'Logging in...' : 'Login'}
           </Button>
         </form>
-        <p className="mt-6 text-center text-sm text-gray-600">
-          Ainda não tem uma conta?{' '}
-          <Link href="/signup" className="font-medium text-blue-600 hover:text-blue-500">
-            Cadastre-se
-          </Link>
-        </p>
+        
+        <div className="mt-6 text-center">
+          <p className="text-muted-foreground text-sm">
+            Don&apos;t have an account yet?{' '}
+            <Link href="/signup" className="text-accent hover:underline font-medium">
+              Sign up
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

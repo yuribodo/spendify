@@ -69,12 +69,15 @@ class AuthService {
   private setTokens(tokens: { accessToken: string }): void {
     if (typeof window !== 'undefined') {
       localStorage.setItem('user', JSON.stringify(tokens));
+      
+      document.cookie = `accessToken=${tokens.accessToken}; path=/; max-age=${60 * 60 * 24 * 7}`; // 7 days
     }
   }
 
   private removeTokens(): void {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('user');
+      document.cookie = 'accessToken=; path=/; max-age=0';
     }
   }
 
