@@ -1,3 +1,4 @@
+
 # Spendify 💰
 
 A personal financial management application built with Fastify, following SOLID principles.
@@ -145,3 +146,4 @@ yarn test
 - 🤖 Build
 - 📦 Chore
 - ⏩ Revert
+
