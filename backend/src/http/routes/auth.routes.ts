@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import { authenticate } from "../controllers/auth/authenticate";
 import { forgotPassword } from "../controllers/auth/forgot-password";
 import { resetPassword } from "../controllers/auth/reset-password";
+import { refreshToken } from "../controllers/auth/refresh-token";
 
 export async function authRoutes(app: FastifyInstance) {
     app.post('/session', {
@@ -34,6 +35,29 @@ export async function authRoutes(app: FastifyInstance) {
             }
         }
     }, authenticate);
+
+    app.post('/refresh', {
+        schema: {
+            description: 'Route to refresh authentication token',
+            tags: ['Authentication'],
+            response: {
+                200: {
+                    description: 'Successful token refresh',
+                    type: 'object',
+                    properties: {
+                        token: { type: 'string' }
+                    }
+                },
+                401: {
+                    description: 'Unauthorized - Invalid or expired token',
+                    type: 'object',
+                    properties: {
+                        message: { type: 'string' }
+                    }
+                }
+            }
+        }
+    }, refreshToken);
 
     app.post('/forgot-password', {
         schema: {
