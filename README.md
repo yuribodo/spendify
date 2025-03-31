@@ -112,11 +112,18 @@ npm run migrate
 yarn migrate
 ```
 
-5. Start the development server:
+5. Start the frontend:
 ```bash
+cd frontend
+
 npm run dev
-# or
-yarn dev
+```
+
+6. Start the backend:
+```bash
+cd backend
+
+npm run start:dev
 ```
 
 ## 🧪 Tests
