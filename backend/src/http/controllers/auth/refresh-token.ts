@@ -1,18 +1,28 @@
-import { FastifyReply, FastifyRequest } from "fastify";
 import { makeRefreshTokenUseCase } from "@/factories/user/make-refresh-token-use-case";
+import { FastifyReply, FastifyRequest } from "fastify";
+
+interface JWTPayload {
+  sub: string;
+  role: string;
+  iat: number;
+  exp: number;
+}
 
 export async function refreshToken(request: FastifyRequest, reply: FastifyReply) {
   try {
-    const refreshToken = request.cookies.accessToken;
-
-    if (!refreshToken) {
-      return reply.status(401).send({ message: "Token not provided" });
+    const refreshTokenUseCase = makeRefreshTokenUseCase();
+    
+    const currentToken = request.cookies.accessToken;
+    
+    if (!currentToken) {
+      return reply.status(401).send({ message: "Refresh token not provided" });
     }
 
-    const refreshTokenUseCase = makeRefreshTokenUseCase();
-
+    const payload = await request.jwtVerify<JWTPayload>();
+    const userId = payload.sub;
+    
     const { user } = await refreshTokenUseCase.execute({
-      token: refreshToken,
+      userId,
     });
 
     const token = await reply.jwtSign(
@@ -22,9 +32,11 @@ export async function refreshToken(request: FastifyRequest, reply: FastifyReply)
       {
         sign: {
           sub: user.id,
+          expiresIn: '15m', 
         },
       }
     );
+
 
     reply.setCookie("accessToken", token, {
       httpOnly: true,
