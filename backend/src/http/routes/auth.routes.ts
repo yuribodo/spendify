@@ -36,9 +36,9 @@ export async function authRoutes(app: FastifyInstance) {
         }
     }, authenticate);
 
-    app.post('/refresh', {
+    app.patch('/refresh', {
         schema: {
-            description: 'Route to refresh authentication token',
+            description: 'Route to refresh an authentication token',
             tags: ['Authentication'],
             response: {
                 200: {
